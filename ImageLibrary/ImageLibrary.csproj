@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="library.db" />
+    <None Remove="ViewModels\MainWindow\Assets\icons8-folder-100.png" />
+    <None Remove="ViewModels\MainWindow\Assets\icons8-folder-50.png" />
+    <None Remove="ViewModels\MainWindow\Assets\icons8-folder.gif" />
+    <None Remove="ViewModels\MainWindow\Assets\icons8-plus-100.png" />
+    <None Remove="ViewModels\MainWindow\Assets\icons8-plus-48.png" />
+    <None Remove="ViewModels\MainWindow\Assets\icons8-plus-50.png" />
+    <None Remove="ViewModels\MainWindow\Assets\icons8-plus-96.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="library.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="ViewModels\MainWindow\Assets\icons8-folder-100.png" />
+    <Resource Include="ViewModels\MainWindow\Assets\icons8-folder-50.png" />
+    <Resource Include="ViewModels\MainWindow\Assets\icons8-folder.gif" />
+    <Resource Include="ViewModels\MainWindow\Assets\icons8-plus-100.png" />
+    <Resource Include="ViewModels\MainWindow\Assets\icons8-plus-48.png" />
+    <Resource Include="ViewModels\MainWindow\Assets\icons8-plus-50.png" />
+    <Resource Include="ViewModels\MainWindow\Assets\icons8-plus-96.png" />
+  </ItemGroup>
+
+</Project>

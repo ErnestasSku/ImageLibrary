@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="ImageLibrary.CreationFieldControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ImageLibrary"
+             mc:Ignorable="d" 
+             Width="Auto" Height="Auto"
+             Background="White">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <Label Content="_Title" Target="{Binding ElementName=TitleTextBox}" Margin="0,0,0,10"/>
+        <TextBox Name="TitleTextBox"  Grid.Column="1" MinWidth="200" MaxWidth="400" HorizontalAlignment="Stretch" Margin="10,0,10,10"/>
+
+        <Label Content="_Path" Grid.Row="1" Target="{Binding ElementName=PathTextBox}" Margin="0,0,0,10"/>
+        <TextBox Name="PathTextBox" Grid.Row="1" Grid.Column="1" MinWidth="200" MaxWidth="400" HorizontalAlignment="Stretch" Margin="10,0,10,10" />
+        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
+            <!--TODO Add a button for directory dialog and a checkmark saying if it's ok or not (also tooltip explaining the path)-->
+        </StackPanel>
+
+        <Label Content="_Description" Grid.Row="2" Target="{Binding ElementName=DescriptionTextBox}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,10"/>
+        <TextBox Name="DescriptionTextBox" Grid.Row="2" Grid.Column="1"  AcceptsReturn="True" HorizontalAlignment="Stretch" MinWidth="200" MaxWidth="400" MinHeight="75" MaxHeight="150" Margin="10,0,10,10"/>
+
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="10,10,10,10" HorizontalAlignment="Center">
+            <Button Content="Cancel" Margin="0,0,20,0"/>
+            <Button Content="Accept"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

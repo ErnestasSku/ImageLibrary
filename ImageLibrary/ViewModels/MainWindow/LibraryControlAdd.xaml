@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="ImageLibrary.ViewModels.MainWindow.LibraryControlAdd"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ImageLibrary.ViewModels.MainWindow"
+             mc:Ignorable="d" 
+             d:MinHeight="80" d:MinWidth="80"
+             d:MaxHeight="160" d:MaxWidth="160"
+             Background="AliceBlue"
+             MouseEnter="UserControl_MouseEnter"
+             MouseLeave="UserControl_MouseLeave"
+             MouseDown="UserControl_MouseDown"
+             ToolTip="{Binding description}"
+             Margin="5"
+             BorderThickness="1"
+             BorderBrush="Black">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Image Source="/ViewModels/MainWindow/Assets/icons8-plus-50.png" Grid.Row="0" MinHeight="50" MinWidth="50" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+        <Label Content="{Binding name}"  HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Stretch"/>
+
+
+    </Grid>
+</UserControl>

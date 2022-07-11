@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ImageLibrary.Converters;
 using ImageLibrary.Database;
 using ImageLibrary.Database.Models;
 using ImageLibrary.ViewModels.MainWindow;
@@ -100,27 +101,4 @@ namespace ImageLibrary
             Preview = false;
         }
     }
-
-    /// <summary>
-    /// Class responsible for converting a bool to image (inversly).
-    /// </summary>
-    class InverseVisibility : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return (bool)value ? Visibility.Hidden : Visibility.Visible;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            switch ((Visibility)value)
-            {
-                case Visibility.Visible: return false;
-                case Visibility.Collapsed: return true;
-                case Visibility.Hidden: return true;
-            }
-            return false;
-        }
-    }
-
 }

@@ -25,5 +25,9 @@ public class LibraryDbContext : DbContext
     {
         modelBuilder.Entity<Library>()
             .HasKey(k => k.LibraryId);
+        
+        modelBuilder.Entity<Library>()
+            .Property(f => f.LibraryId)
+            .ValueGeneratedOnAdd();
     }
 }

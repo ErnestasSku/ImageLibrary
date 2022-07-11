@@ -30,7 +30,7 @@
             </Grid.RowDefinitions>
             <Label Content="Create new window" Margin="5,5,0,5"/>
         </Grid>-->
-        <local:CreationFieldControl Grid.Row="1" Visibility="{Binding Preview, Converter={StaticResource InverseVisibility}, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <local:CreationFieldControl x:Name="CreationField" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <StackPanel Grid.Row="2" HorizontalAlignment="Stretch" Orientation="Horizontal">
             <Button Content="True" Click="TestButton_Click"/>
             <Button Content="False" Click="TestButton_Click2"/>

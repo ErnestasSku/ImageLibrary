@@ -40,7 +40,7 @@ namespace ImageLibrary
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public MainWindow()
         {
@@ -48,6 +48,25 @@ namespace ImageLibrary
             Preview = true;
             InitializeComponent();
             PrepareLibraryList();
+            PrepareBindings();
+            
+        }
+
+        /// <summary>
+        /// Prepares bindings for elements in UI.
+        /// Note: most bindings are done in the xaml, this is used for special scenarios.
+        /// </summary>
+        public void PrepareBindings()
+        {
+            // CreationField uses the CreationField DataContext.
+            // This binds Preview from this class to CreationField VisibilityProperty.
+            Binding binding = new("Preview")
+            {
+                Source = this,
+                Converter = new InverseVisibility(),
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+            CreationField.SetBinding(VisibilityProperty, binding);
         }
 
         /// <summary>
@@ -62,10 +81,13 @@ namespace ImageLibrary
             LibList.Children.Add(Add);
         }
 
+        /// <summary>
+        /// Implementation for changed property.
+        /// </summary>
+        /// <param name="propName">Name of the changed property</param>
         public void NotifyPropertyChanged(string propName)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
@@ -79,6 +101,9 @@ namespace ImageLibrary
         }
     }
 
+    /// <summary>
+    /// Class responsible for converting a bool to image (inversly).
+    /// </summary>
     class InverseVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -97,4 +122,5 @@ namespace ImageLibrary
             return false;
         }
     }
+
 }

@@ -7,7 +7,7 @@ namespace ImageLibrary.Database.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int LibraryId { get; set; }
+        public int? LibraryId { get; set; }
         public string Path { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -15,6 +15,14 @@ namespace ImageLibrary.Database.Models
         public Library()
         {
             
+        }
+
+        public Library(string path, string name, string description = "")
+        {
+            LibraryId = null;
+            Path = path;
+            Name = name;
+            Description = description;
         }
 
         public Library (int libraryId, string path, string name, string description = "")

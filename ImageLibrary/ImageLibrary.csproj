@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="GeneralAssets\check.png" />
+    <None Remove="GeneralAssets\remove.png" />
     <None Remove="library.db" />
     <None Remove="ViewModels\MainWindow\Assets\icons8-folder-100.png" />
     <None Remove="ViewModels\MainWindow\Assets\icons8-folder-50.png" />
@@ -31,6 +33,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="GeneralAssets\check.png" />
+    <Resource Include="GeneralAssets\remove.png" />
     <Resource Include="ViewModels\MainWindow\Assets\icons8-folder-100.png" />
     <Resource Include="ViewModels\MainWindow\Assets\icons8-folder-50.png" />
     <Resource Include="ViewModels\MainWindow\Assets\icons8-folder.gif" />
@@ -38,6 +42,25 @@
     <Resource Include="ViewModels\MainWindow\Assets\icons8-plus-48.png" />
     <Resource Include="ViewModels\MainWindow\Assets\icons8-plus-50.png" />
     <Resource Include="ViewModels\MainWindow\Assets\icons8-plus-96.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Converters\" />
   </ItemGroup>
 
 </Project>

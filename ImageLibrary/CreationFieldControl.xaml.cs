@@ -86,7 +86,8 @@ namespace ImageLibrary
         {
             ValidTitle = !TitleTextBox.Text.Equals("") ? true : false;
         }
-
+        
+        //TODO: make a real implementation for this text field.
         private void PathTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             ValidPath = !PathTextBox.Text.Equals("") ? true : false;

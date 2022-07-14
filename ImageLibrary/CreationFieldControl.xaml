@@ -10,6 +10,7 @@
              Background="White">
     <UserControl.Resources>
         <converters:BoolToImage x:Key="BoolToImg" />
+        <converters:CFC_MultiBoolToButtonEnabled x:Key="ButtonEnabled" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -40,7 +41,14 @@
 
         <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="10,10,10,10" HorizontalAlignment="Center">
             <Button Name="CancelButton" Content="Cancel" Margin="0,0,20,0" Click="CancelButton_Click"/>
-            <Button Name="AcceptButton" Content="Accept" Click="AcceptButton_Click"/>
+            <Button Name="AcceptButton" Content="Accept" Click="AcceptButton_Click">
+                <Button.IsEnabled>
+                    <MultiBinding Converter="{StaticResource ButtonEnabled}" >
+                        <Binding Path="ValidTitle"/>
+                        <Binding Path="ValidPath"/>
+                    </MultiBinding>
+                </Button.IsEnabled>
+            </Button>
         </StackPanel>
 
     </Grid>

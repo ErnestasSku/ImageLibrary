@@ -27,13 +27,13 @@
         
         <Label Content="_Title" Target="{Binding ElementName=TitleTextBox}" Margin="0,10,0,10"/>
         <TextBox Name="TitleTextBox"  Grid.Column="1" MinWidth="200" MaxWidth="400" MinHeight="25" HorizontalAlignment="Stretch" Margin="10" TextChanged="TitleTextBox_TextChanged" />
-        <Image Source="{Binding ValidTitle, Converter={StaticResource BoolToImg}}" Grid.Column="2" MaxHeight="10" MaxWidth="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Image Name="TitleIndicatorImage" Visibility="Hidden" Source="{Binding ValidTitle, Converter={StaticResource BoolToImg}}" Grid.Column="2" MaxHeight="10" MaxWidth="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
         <Label Content="_Path" Grid.Row="1" Target="{Binding ElementName=PathTextBox}" Margin="0,10,0,10"/>
         <TextBox Name="PathTextBox" Grid.Row="1" Grid.Column="1" MinWidth="200" MaxWidth="400" MinHeight="25" HorizontalAlignment="Stretch" Margin="10" TextChanged="PathTextBox_TextChanged"/>
         <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
             <Button Name="DirectorySelectionButton" Content="*" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0" />
-            <Image Source="{Binding ValidPath, Converter={StaticResource BoolToImg}}" Grid.Column="2" Grid.Row="1" MaxHeight="10" MaxWidth="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Image Name="PathIndicatorImage" Visibility="Hidden" Source="{Binding ValidPath, Converter={StaticResource BoolToImg}}" Grid.Column="2" Grid.Row="1" MaxHeight="10" MaxWidth="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </StackPanel>
 
         <Label Content="_Description" Grid.Row="2" Target="{Binding ElementName=DescriptionTextBox}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,10"/>
@@ -43,7 +43,7 @@
             <Button Name="CancelButton" Content="Cancel" Margin="0,0,20,0" Click="CancelButton_Click"/>
             <Button Name="AcceptButton" Content="Accept" Click="AcceptButton_Click">
                 <Button.IsEnabled>
-                    <MultiBinding Converter="{StaticResource ButtonEnabled}" >
+                    <MultiBinding Converter="{StaticResource ButtonEnabled}">
                         <Binding Path="ValidTitle"/>
                         <Binding Path="ValidPath"/>
                     </MultiBinding>

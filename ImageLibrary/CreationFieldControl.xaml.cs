@@ -44,8 +44,8 @@ namespace ImageLibrary
                 }
             }
         }
-        private bool? validPath; 
-        public bool? ValidPath 
+        private bool validPath; 
+        public bool ValidPath 
         { 
             get { return validPath; }
             set
@@ -60,8 +60,8 @@ namespace ImageLibrary
 
         public CreationFieldControl()
         {
-            ValidTitle = null;
-            ValidPath = null;
+            ValidTitle = false;
+            ValidPath = false;
             DataContext = this;
             InitializeComponent();
         }
@@ -75,22 +75,27 @@ namespace ImageLibrary
             var description = DescriptionTextBox.Text;
 
             Library NewLibrary = new Library(path, title, description);
+            CreationDone?.Invoke(this, new CreationDoneEventArgs(false, NewLibrary));
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            CreationDone?.Invoke(this, new CreationDoneEventArgs(false));
+            CreationDone?.Invoke(this, new CreationDoneEventArgs(true));
         }
 
         private void TitleTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             ValidTitle = !TitleTextBox.Text.Equals("") ? true : false;
+            if (TitleIndicatorImage.Visibility == Visibility.Hidden)
+                TitleIndicatorImage.Visibility = Visibility.Visible;
         }
         
         //TODO: make a real implementation for this text field.
         private void PathTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             ValidPath = !PathTextBox.Text.Equals("") ? true : false;
+            if (PathIndicatorImage.Visibility == Visibility.Hidden)
+                PathIndicatorImage.Visibility = Visibility.Visible;
         }
     }
 

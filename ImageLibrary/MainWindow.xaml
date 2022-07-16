@@ -24,8 +24,14 @@
         <Separator Grid.Row="0" VerticalAlignment="Bottom"/>
 
         <WrapPanel Grid.Row="1" Name="LibList" Visibility="{Binding Preview, Converter={StaticResource BoolToVisibility}, UpdateSourceTrigger=PropertyChanged}"/>
-        <local:CreationFieldControl x:Name="CreationField" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" CreationDone="CreationField_CreationDone"/>
-        
+        <!--<Grid Grid.Row="1" Name="CreationGrid" Visibility="{Binding Preview, Converter={StaticResource InverseVisibility}, UpdateSourceTrigger=PropertyChanged}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="Create new window" Margin="5,5,0,5"/>
+        </Grid>-->
+        <local:CreationFieldControl x:Name="CreationField" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <StackPanel Grid.Row="2" HorizontalAlignment="Stretch" Orientation="Horizontal">
             <Button Content="True" Click="TestButton_Click"/>
             <Button Content="False" Click="TestButton_Click2"/>

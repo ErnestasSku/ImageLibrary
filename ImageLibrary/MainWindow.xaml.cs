@@ -75,6 +75,7 @@ namespace ImageLibrary
         /// </summary>
         private void PrepareLibraryList()
         {
+            LibList.Children.Clear();
             LibraryList = App._library.Librarys.Select(p => new LibraryControlltem(p)).ToList();
             foreach (var control in LibraryList) { LibList.Children.Add(control); }
             var Add = new LibraryControlAdd();
@@ -99,6 +100,18 @@ namespace ImageLibrary
         private void TestButton_Click2(object sender, RoutedEventArgs e)
         {
             Preview = false;
+        }
+
+        private void CreationField_CreationDone(object sender, CreationDoneEventArgs e)
+        {
+            var creationFieldControl = (CreationFieldControl)sender;
+            Preview = true;
+
+            if (e.Cancelled || e.Library == null)
+                return;
+            App._library.Librarys.Add(e.Library);
+            //App._library.SaveChangesAsync();
+            PrepareLibraryList();
         }
     }
 }

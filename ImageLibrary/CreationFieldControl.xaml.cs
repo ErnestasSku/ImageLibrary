@@ -29,28 +29,28 @@ namespace ImageLibrary
         public event EventHandler<CreationDoneEventArgs>? CreationDone;
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public bool Preview { get; set;}
+        public bool Preview { get; set; }
 
         private bool? validTitle;
-        public bool? ValidTitle 
-        { 
-            get { return validTitle; } 
+        public bool? ValidTitle
+        {
+            get { return validTitle; }
             set
             {
-                if(value != validTitle)
+                if (value != validTitle)
                 {
                     validTitle = value;
                     NotifyPropertyChanged("ValidTitle");
                 }
             }
         }
-        private bool validPath; 
-        public bool ValidPath 
-        { 
+        private bool validPath;
+        public bool ValidPath
+        {
             get { return validPath; }
             set
             {
-                if(value != validPath)
+                if (value != validPath)
                 {
                     validPath = value;
                     NotifyPropertyChanged("ValidPath");
@@ -66,6 +66,16 @@ namespace ImageLibrary
             InitializeComponent();
         }
 
+        private void ResetControl()
+        {
+            TitleTextBox.Text = "";
+            PathTextBox.Text = "";
+            DescriptionTextBox.Text = "";
+
+            TitleIndicatorImage.Visibility = Visibility.Hidden;
+            PathIndicatorImage.Visibility = Visibility.Hidden;
+        }
+
         public void NotifyPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
@@ -76,16 +86,18 @@ namespace ImageLibrary
 
             Library NewLibrary = new Library(path, title, description);
             CreationDone?.Invoke(this, new CreationDoneEventArgs(false, NewLibrary));
+            ResetControl();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             CreationDone?.Invoke(this, new CreationDoneEventArgs(true));
+            ResetControl();
         }
 
         private void TitleTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ValidTitle = !TitleTextBox.Text.Equals("") ? true : false;
+            ValidTitle = !TitleTextBox.Text.Equals("");
             if (TitleIndicatorImage.Visibility == Visibility.Hidden)
                 TitleIndicatorImage.Visibility = Visibility.Visible;
         }
@@ -93,7 +105,7 @@ namespace ImageLibrary
         //TODO: make a real implementation for this text field.
         private void PathTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ValidPath = !PathTextBox.Text.Equals("") ? true : false;
+            ValidPath = !PathTextBox.Text.Equals("");
             if (PathIndicatorImage.Visibility == Visibility.Hidden)
                 PathIndicatorImage.Visibility = Visibility.Visible;
         }

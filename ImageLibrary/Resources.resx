@@ -123,4 +123,10 @@
   <data name="RemoveIcon" xml:space="preserve">
     <value>GeneralAssets/remove.png</value>
   </data>
+  <data name="StoredFolder" xml:space="preserve">
+    <value>Stored</value>
+  </data>
+  <data name="UploadFolder" xml:space="preserve">
+    <value>Upload</value>
+  </data>
 </root>

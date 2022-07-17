@@ -1,4 +1,5 @@
 ﻿using ImageLibrary.Database.Models;
+using ImageLibrary.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,6 +29,8 @@ namespace ImageLibrary
 
         public event EventHandler<CreationDoneEventArgs>? CreationDone;
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        List<string> TakenNames;
 
         public bool Preview { get; set; }
 
@@ -63,6 +66,7 @@ namespace ImageLibrary
             ValidTitle = false;
             ValidPath = false;
             DataContext = this;
+            TakenNames = App._library.Librarys.Select(p => p.Name).ToList();
             InitializeComponent();
         }
 
@@ -74,6 +78,8 @@ namespace ImageLibrary
 
             TitleIndicatorImage.Visibility = Visibility.Hidden;
             PathIndicatorImage.Visibility = Visibility.Hidden;
+
+            TakenNames = App._library.Librarys.Select(p => p.Name).ToList();
         }
 
         public void NotifyPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
@@ -97,7 +103,7 @@ namespace ImageLibrary
 
         private void TitleTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ValidTitle = !TitleTextBox.Text.Equals("");
+            ValidTitle = !TitleTextBox.Text.Equals("") && TakenNames.All(x => !x.Equals(TitleTextBox.Text));
             if (TitleIndicatorImage.Visibility == Visibility.Hidden)
                 TitleIndicatorImage.Visibility = Visibility.Visible;
         }
@@ -105,9 +111,30 @@ namespace ImageLibrary
         //TODO: make a real implementation for this text field.
         private void PathTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ValidPath = !PathTextBox.Text.Equals("");
+            ValidPath = !PathTextBox.Text.Equals("") && NewLibraryUtilities.ValidDirectory(PathTextBox.Text);
             if (PathIndicatorImage.Visibility == Visibility.Hidden)
                 PathIndicatorImage.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// Opens a new directory.
+        /// NOTE: most likely place to cause problems in the future
+        ///   due to using Dialog from WinForms.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DirectorySelectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                var result = dialog.ShowDialog();
+
+                if (result != System.Windows.Forms.DialogResult.OK)
+                    return;
+
+                PathTextBox.Text = dialog.SelectedPath;
+            }
+
         }
     }
 

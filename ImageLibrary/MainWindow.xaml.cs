@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using ImageLibrary.Converters;
 using ImageLibrary.Database;
 using ImageLibrary.Database.Models;
+using ImageLibrary.Utilities;
 using ImageLibrary.ViewModels.MainWindow;
 
 
@@ -27,7 +28,9 @@ namespace ImageLibrary
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        public static List<LibraryControlltem> LibraryList;
+
+        LibraryControlAdd libraryAddControl;
+
         private bool preview;
         public bool Preview {
             get { return preview; }
@@ -76,11 +79,11 @@ namespace ImageLibrary
         private void PrepareLibraryList()
         {
             LibList.Children.Clear();
-            LibraryList = App._library.Librarys.Select(p => new LibraryControlltem(p)).ToList();
-            foreach (var control in LibraryList) { LibList.Children.Add(control); }
-            var Add = new LibraryControlAdd();
-            Add.MouseDown += (object sender, MouseButtonEventArgs args) => { Preview = false; };
-            LibList.Children.Add(Add);
+            var list = App._library.Librarys.Select(p => new LibraryControlltem(p)).ToList();
+            foreach (var control in list) { LibList.Children.Add(control); }
+            libraryAddControl = new();
+            libraryAddControl.MouseDown += (object sender, MouseButtonEventArgs args) => { Preview = false; };
+            LibList.Children.Add(libraryAddControl);
         }
 
         /// <summary>
@@ -92,15 +95,10 @@ namespace ImageLibrary
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
-        private void TestButton_Click(object sender, RoutedEventArgs e)
-        {
-            Preview = true;
-        }
+        private void TestButton_Click(object sender, RoutedEventArgs e) => Preview = true;
+        
 
-        private void TestButton_Click2(object sender, RoutedEventArgs e)
-        {
-            Preview = false;
-        }
+        private void TestButton_Click2(object sender, RoutedEventArgs e) => Preview = false;
 
         private void CreationField_CreationDone(object sender, CreationDoneEventArgs e)
         {
@@ -110,8 +108,13 @@ namespace ImageLibrary
             if (e.Cancelled || e.Library == null)
                 return;
             App._library.Librarys.Add(e.Library);
-            //App._library.SaveChangesAsync();
-            PrepareLibraryList();
+            App._library.SaveChangesAsync();
+
+            NewLibraryUtilities.InitialiseFolder(e.Library.Path);
+
+            LibList.Children.Remove(libraryAddControl);
+            LibList.Children.Add(new LibraryControlltem(e.Library));
+            LibList.Children.Add(libraryAddControl);
         }
     }
 }

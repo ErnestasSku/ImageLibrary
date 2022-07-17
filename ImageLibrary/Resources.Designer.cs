@@ -77,5 +77,23 @@ namespace ImageLibrary {
                 return ResourceManager.GetString("RemoveIcon", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stored.
+        /// </summary>
+        internal static string StoredFolder {
+            get {
+                return ResourceManager.GetString("StoredFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload.
+        /// </summary>
+        internal static string UploadFolder {
+            get {
+                return ResourceManager.GetString("UploadFolder", resourceCulture);
+            }
+        }
     }
 }

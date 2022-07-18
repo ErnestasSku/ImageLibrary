@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using ImageLibrary.Database;
 
 namespace ImageLibrary.Utilities
 {
@@ -27,7 +28,9 @@ namespace ImageLibrary.Utilities
         {
             Directory.CreateDirectory(string.Concat(path, "\\", Resources.UploadFolder));
             Directory.CreateDirectory(string.Concat(path, "\\", Resources.StoredFolder));
-            //TODO: add database creation
+            var db = new CategoryDbContext(path);
+            var result = db.Database.EnsureCreated();
+
         }
     }
 }

@@ -70,6 +70,15 @@ namespace ImageLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LibraryData.db.
+        /// </summary>
+        internal static string LibraryDatabase {
+            get {
+                return ResourceManager.GetString("LibraryDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GeneralAssets/remove.png.
         /// </summary>
         internal static string RemoveIcon {

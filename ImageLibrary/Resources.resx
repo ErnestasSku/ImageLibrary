@@ -120,6 +120,9 @@
   <data name="CheckIcon" xml:space="preserve">
     <value>GeneralAssets/check.png</value>
   </data>
+  <data name="LibraryDatabase" xml:space="preserve">
+    <value>LibraryData.db</value>
+  </data>
   <data name="RemoveIcon" xml:space="preserve">
     <value>GeneralAssets/remove.png</value>
   </data>

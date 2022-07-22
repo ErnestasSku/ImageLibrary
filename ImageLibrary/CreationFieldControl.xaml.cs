@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using ImageLibrary.Singletons;
 
 namespace ImageLibrary;
 
@@ -14,9 +15,6 @@ namespace ImageLibrary;
 /// </summary>
 public partial class CreationFieldControl : UserControl, INotifyPropertyChanged
 {
-    //public delegate void CreationDoneEventHandler(object sender, CreationDoneEventArgs e);
-    //public event CreationDoneEventHandler CreationDone;
-
     public event EventHandler<CreationDoneEventArgs>? CreationDone;
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -56,7 +54,6 @@ public partial class CreationFieldControl : UserControl, INotifyPropertyChanged
         ValidTitle = false;
         ValidPath = false;
         DataContext = this;
-        TakenNames = App._library.Librarys.Select(p => p.Name).ToList();
         InitializeComponent();
     }
 
@@ -68,8 +65,6 @@ public partial class CreationFieldControl : UserControl, INotifyPropertyChanged
 
         TitleIndicatorImage.Visibility = Visibility.Hidden;
         PathIndicatorImage.Visibility = Visibility.Hidden;
-
-        TakenNames = App._library.Librarys.Select(p => p.Name).ToList();
     }
 
     public void NotifyPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
@@ -93,12 +88,11 @@ public partial class CreationFieldControl : UserControl, INotifyPropertyChanged
 
     private void TitleTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
-        ValidTitle = !TitleTextBox.Text.Equals("") && TakenNames.All(x => !x.Equals(TitleTextBox.Text));
+        ValidTitle = !TitleTextBox.Text.Equals("") && NewLibraryUtilities.ValidTitle(TitleTextBox.Text);
         if (TitleIndicatorImage.Visibility == Visibility.Hidden)
             TitleIndicatorImage.Visibility = Visibility.Visible;
     }
     
-    //TODO: make a real implementation for this text field.
     private void PathTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
         ValidPath = !PathTextBox.Text.Equals("") && NewLibraryUtilities.ValidDirectory(PathTextBox.Text);

@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using ImageLibrary.Database;
+using ImageLibrary.Singletons;
+using System.Threading;
+using ImageLibrary.Singletons;
 
 namespace ImageLibrary.Utilities;
 
@@ -24,12 +27,21 @@ public static class NewLibraryUtilities
         return false;
     }
 
+    public static bool ValidTitle(string title)
+    {
+        var takenNames = LibraryDatabase.GetLibraryNames();
+        return takenNames.All(x => !x.Equals(title));
+    }
+    
+
     public static void InitialiseFolder(string path)
     {
         Directory.CreateDirectory(string.Concat(path, "\\", Resources.UploadFolder));
         Directory.CreateDirectory(string.Concat(path, "\\", Resources.StoredFolder));
         var db = new CategoryDbContext(path);
         var result = db.Database.EnsureCreated();
-
+        
+        //Thread.Sleep(2000);
+        //LibItemEventSingleton.CreatedDirectory();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ImageLibrary.Database;
 using ImageLibrary.Database.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,11 @@ namespace ImageLibrary.Singletons;
 /// </summary>
 public sealed class LibraryDatabase
 {   
-    public LibraryDbContext libraryDbContext;
-
     private static readonly object padlock = new();
     private static LibraryDatabase? _instance = null;
+
+    public LibraryDbContext libraryDbContext;
+    public List<string> LibraryNames;
 
     public static LibraryDatabase Instance
     {
@@ -35,8 +37,17 @@ public sealed class LibraryDatabase
     private LibraryDatabase()
     {
         libraryDbContext = new LibraryDbContext();
+        libraryDbContext.SavedChanges += UpdateSingleton;
+        LibraryNames = GetLibraryNames();
+    }
+
+    private void UpdateSingleton(object? sender, SavedChangesEventArgs e)
+    {
+        LibraryNames = GetLibraryNames();
     }
 
     public static List<string> GetLibraryNames() => Instance.libraryDbContext.Librarys.Select(p => p.Name).ToList();
+
+    public static DbSet<Library> Libraries => Instance.libraryDbContext.Librarys;
 
 }

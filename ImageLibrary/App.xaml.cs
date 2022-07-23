@@ -8,6 +8,5 @@ namespace ImageLibrary;
 /// </summary>
 public partial class App : Application
 {
-    public static LibraryDbContext _library = new LibraryDbContext();
 
 }

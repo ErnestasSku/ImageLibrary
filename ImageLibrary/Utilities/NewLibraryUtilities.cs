@@ -27,21 +27,15 @@ public static class NewLibraryUtilities
         return false;
     }
 
-    public static bool ValidTitle(string title)
-    {
-        var takenNames = LibraryDatabase.GetLibraryNames();
-        return takenNames.All(x => !x.Equals(title));
-    }
-    
+    public static bool ValidTitle(string title) => LibraryDatabase.Instance.LibraryNames.All(x => !x.Equals(title));
+
 
     public static void InitialiseFolder(string path)
     {
         Directory.CreateDirectory(string.Concat(path, "\\", Resources.UploadFolder));
         Directory.CreateDirectory(string.Concat(path, "\\", Resources.StoredFolder));
         var db = new CategoryDbContext(path);
-        var result = db.Database.EnsureCreated();
+        var _ = db.Database.EnsureCreated();
         
-        //Thread.Sleep(2000);
-        //LibItemEventSingleton.CreatedDirectory();
     }
 }

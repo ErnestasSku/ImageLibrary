@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using ImageLibrary.Converters;
+using ImageLibrary.Singletons;
 using ImageLibrary.Utilities;
 using ImageLibrary.ViewModels.MainWindow;
 
@@ -66,7 +67,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private void PrepareLibraryList()
     {
         LibList.Children.Clear();
-        var list = App._library.Librarys.Select(p => new LibraryControlltem(p)).ToList();
+        var list = LibraryDatabase.Libraries.Select(p => new LibraryControlltem(p)).ToList();
         foreach (var control in list) { LibList.Children.Add(control); }
         libraryAddControl = new();
         libraryAddControl.MouseDown += (object sender, MouseButtonEventArgs args) => { Preview = false; };
@@ -94,8 +95,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
         if (e.Cancelled || e.Library == null)
             return;
-        App._library.Librarys.Add(e.Library);
-        App._library.SaveChangesAsync();
+        LibraryDatabase.Libraries.Add(e.Library);
+        LibraryDatabase.Instance.libraryDbContext.SaveChangesAsync();
 
         NewLibraryUtilities.InitialiseFolder(e.Library.Path);
 

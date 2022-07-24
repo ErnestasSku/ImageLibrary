@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.IO;
 using ImageLibrary.Database;
-using ImageLibrary.Singletons;
-using System.Threading;
 using ImageLibrary.Singletons;
 
 namespace ImageLibrary.Utilities;

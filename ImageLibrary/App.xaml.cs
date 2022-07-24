@@ -1,4 +1,5 @@
 ﻿using ImageLibrary.Database;
+using System;
 using System.Windows;
 
 namespace ImageLibrary;
@@ -8,5 +9,9 @@ namespace ImageLibrary;
 /// </summary>
 public partial class App : Application
 {
-
+    App()
+    {
+        //StartupUri = new Uri("MainWindow.xaml", UriKind.Relative);
+        StartupUri = new Uri("Experimental/ExperimentWindow.xaml", UriKind.Relative);
+    }
 }

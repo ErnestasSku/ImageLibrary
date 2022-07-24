@@ -19,6 +19,10 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     LibraryControlAdd libraryAddControl;
 
+    /// <summary>
+    /// Prievew = true, shows the list of Libraries
+    /// Preview = false, shows new library creation field.
+    /// </summary>
     private bool preview;
     public bool Preview {
         get { return preview; }
@@ -83,11 +87,17 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
     }
 
+    //NOTE: testing. Delete later
     private void TestButton_Click(object sender, RoutedEventArgs e) => Preview = true;
     
-
+    //NOTE: testing. Delete later
     private void TestButton_Click2(object sender, RoutedEventArgs e) => Preview = false;
 
+    /// <summary>
+    /// Initialises the folder for the Library. Ads the new Library control item.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void CreationField_CreationDone(object sender, CreationDoneEventArgs e)
     {
         var creationFieldControl = (CreationFieldControl)sender;

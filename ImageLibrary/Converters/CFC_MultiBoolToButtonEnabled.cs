@@ -9,7 +9,10 @@ using System.Windows.Data;
 
 namespace ImageLibrary.Converters;
 
-internal class CFC_MultiBoolToButtonEnabled : IMultiValueConverter
+/// <summary>
+/// Aggregates a list of bools.
+/// </summary>
+public class CFC_MultiBoolToButtonEnabled : IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {

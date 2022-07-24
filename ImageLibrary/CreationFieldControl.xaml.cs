@@ -15,12 +15,17 @@ namespace ImageLibrary;
 /// </summary>
 public partial class CreationFieldControl : UserControl, INotifyPropertyChanged
 {
+    /// <summary>
+    /// Invoked when the window is closed (either cancelled, or suceeded).
+    /// During success, newly created library is added to the event args.
+    /// </summary>
     public event EventHandler<CreationDoneEventArgs>? CreationDone;
+
+    /// <summary>
+    /// UI event for updating properties when they are changed.
+    /// </summary>
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    List<string> TakenNames;
-
-    public bool Preview { get; set; }
 
     private bool? validTitle;
     public bool? ValidTitle
@@ -57,6 +62,10 @@ public partial class CreationFieldControl : UserControl, INotifyPropertyChanged
         InitializeComponent();
     }
 
+    /// <summary>
+    /// Resets the control to default state.
+    /// Invoked after cancelled or succesfull creation.
+    /// </summary>
     private void ResetControl()
     {
         TitleTextBox.Text = "";
@@ -67,8 +76,14 @@ public partial class CreationFieldControl : UserControl, INotifyPropertyChanged
         PathIndicatorImage.Visibility = Visibility.Hidden;
     }
 
+    
     public void NotifyPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
+    /// <summary>
+    /// Creates a new library, invokes CreationDone event and resets control.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void AcceptButton_Click(object sender, RoutedEventArgs e)
     {
         var title = TitleTextBox.Text;
@@ -80,6 +95,11 @@ public partial class CreationFieldControl : UserControl, INotifyPropertyChanged
         ResetControl();
     }
 
+    /// <summary>
+    /// Cancells the creation process and resets the control.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
         CreationDone?.Invoke(this, new CreationDoneEventArgs(true));

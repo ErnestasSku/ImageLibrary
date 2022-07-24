@@ -38,7 +38,7 @@ public sealed class LibraryDatabase
     {
         libraryDbContext = new LibraryDbContext();
         libraryDbContext.SavedChanges += UpdateSingleton;
-        LibraryNames = GetLibraryNames();
+        LibraryNames = libraryDbContext.Librarys.Select(p => p.Name).ToList();
     }
 
     private void UpdateSingleton(object? sender, SavedChangesEventArgs e)

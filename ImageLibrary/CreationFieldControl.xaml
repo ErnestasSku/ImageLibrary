@@ -24,7 +24,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
+
         <Label Content="_Title" Target="{Binding ElementName=TitleTextBox}" Margin="0,10,0,10"/>
         <TextBox Name="TitleTextBox"  Grid.Column="1" MinWidth="200" MaxWidth="400" MinHeight="25" HorizontalAlignment="Stretch" Margin="10" TextChanged="TitleTextBox_TextChanged" />
         <Image Name="TitleIndicatorImage" Visibility="Hidden" Source="{Binding ValidTitle, Converter={StaticResource BoolToImg}}" Grid.Column="2" MaxHeight="10" MaxWidth="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>

@@ -4,6 +4,9 @@ using ImageLibrary.Utilities;
 
 namespace ImageLibrary.Database;
 
+/// <summary>
+/// Database context for a certain library (category).
+/// </summary>
 public class CategoryDbContext : DbContext
 {
     string dbPath;

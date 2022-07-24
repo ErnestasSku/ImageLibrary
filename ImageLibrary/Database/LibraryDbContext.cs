@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ImageLibrary.Database;
 
+/// <summary>
+/// Database context for a list of libraries.
+/// </summary>
 public class LibraryDbContext : DbContext
 {
     public DbSet<Library> Librarys { get; set; }
@@ -11,10 +14,6 @@ public class LibraryDbContext : DbContext
     {
         
     }
-
-    //public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base (options)
-    //{
-    //}
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

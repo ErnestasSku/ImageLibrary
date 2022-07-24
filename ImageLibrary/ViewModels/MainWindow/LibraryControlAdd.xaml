@@ -7,14 +7,21 @@
              mc:Ignorable="d" 
              d:MinHeight="80" d:MinWidth="80"
              d:MaxHeight="160" d:MaxWidth="160"
-             Background="AliceBlue"
-             MouseEnter="UserControl_MouseEnter"
-             MouseLeave="UserControl_MouseLeave"
-             MouseDown="UserControl_MouseDown"
              ToolTip="{Binding description}"
              Margin="5"
              BorderThickness="1"
              BorderBrush="Black">
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="AliceBlue"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="RoyalBlue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

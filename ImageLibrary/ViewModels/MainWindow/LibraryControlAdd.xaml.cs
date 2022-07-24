@@ -33,21 +33,5 @@ namespace ImageLibrary.ViewModels.MainWindow
             InitializeComponent();
         }
 
-        private void UserControl_MouseEnter(object sender, MouseEventArgs e)
-        {
-            var control = sender as LibraryControlAdd;
-            control.Background = new SolidColorBrush(Colors.RoyalBlue);
-        }
-
-        private void UserControl_MouseLeave(object sender, MouseEventArgs e)
-        {
-            var control = sender as LibraryControlAdd;
-            control.Background = new SolidColorBrush(Colors.AliceBlue);
-        }
-
-        private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
     }
 }

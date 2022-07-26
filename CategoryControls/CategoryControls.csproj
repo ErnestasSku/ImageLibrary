@@ -6,4 +6,18 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Page Remove="CustomControls\PTextBoxStyle.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Themes\PTextBoxStyle.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UserControls\" />
+  </ItemGroup>
+
 </Project>

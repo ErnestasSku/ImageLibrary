@@ -35,6 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CategoryControls\CategoryControls.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="GeneralAssets\check.png" />
     <Resource Include="GeneralAssets\remove.png" />
     <Resource Include="ViewModels\MainWindow\Assets\icons8-folder-100.png" />

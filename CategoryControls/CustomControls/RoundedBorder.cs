@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -11,26 +10,53 @@ namespace CategoryControls.CustomControls;
 public class RoundedBorder : Control
 {
     public static DependencyProperty BorderOffsetProperty =
-        DependencyProperty.Register(nameof(BorderOffset), typeof(double), typeof(RoundedBorder), new PropertyMetadata(0.0));
+        DependencyProperty.Register(
+            nameof(BorderOffset), 
+            typeof(double), 
+            typeof(RoundedBorder), 
+            new PropertyMetadata(0.0));
 
     public static DependencyProperty UseStrictModeProperty =
-        DependencyProperty.Register(nameof(UseStrictMode), typeof(bool), typeof(RoundedBorder), new PropertyMetadata(false));
+        DependencyProperty.Register(
+            nameof(UseStrictMode), 
+            typeof(bool), typeof(RoundedBorder), 
+            new PropertyMetadata(false));
 
     public static DependencyProperty CornerRadiusProperty =
-        DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(RoundedBorder), new PropertyMetadata(new CornerRadius(0)));
+        DependencyProperty.Register(
+            nameof(CornerRadius), 
+            typeof(CornerRadius), 
+            typeof(RoundedBorder), 
+            new PropertyMetadata(new CornerRadius(0)));
 
     public static DependencyProperty BackgroundProperty =
-        DependencyProperty.Register(nameof(Background), typeof(Brush), typeof(RoundedBorder), new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
+        DependencyProperty.Register(
+            nameof(Background), 
+            typeof(Brush), 
+            typeof(RoundedBorder), 
+            new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
 
     public static new DependencyProperty BorderBrushProperty =
-        DependencyProperty.Register(nameof(BorderBrush), typeof(Brush), typeof(RoundedBorder), new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
+        DependencyProperty.Register(
+            nameof(BorderBrush), 
+            typeof(Brush), 
+            typeof(RoundedBorder), 
+            new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
 
     public static DependencyProperty BorderThicknesProperty =
-        DependencyProperty.Register(nameof(BorderThickness), typeof(Thickness), typeof(RoundedBorder), new PropertyMetadata(new Thickness(0)));
+        DependencyProperty.Register(
+            nameof(BorderThickness), 
+            typeof(Thickness), 
+            typeof(RoundedBorder), 
+            new PropertyMetadata(new Thickness(0)));
 
     public static DependencyProperty ChildProperty =
-        DependencyProperty.Register(nameof(Child), typeof(UIElement), typeof(RoundedBorder), new PropertyMetadata(null));
-    
+        DependencyProperty.Register(
+            nameof(Child), 
+            typeof(UIElement), 
+            typeof(RoundedBorder), 
+            new PropertyMetadata(null));
+
 
     public double BorderOffset
     {
@@ -82,12 +108,14 @@ public class RoundedBorder : Control
 
     static RoundedBorder()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(RoundedBorder), new FrameworkPropertyMetadata(typeof(RoundedBorder)));
+        DefaultStyleKeyProperty.OverrideMetadata(
+            typeof(RoundedBorder),
+            new FrameworkPropertyMetadata(typeof(RoundedBorder)));
     }
 
     public RoundedBorder() : base()
     {
-        
+
     }
 
     public override void OnApplyTemplate()
@@ -115,15 +143,21 @@ public class RoundedBorder : Control
 
     private void CalculateContentValues()
     {
-        
+
         calculatedContentHeight = Height - (BorderThickness.Top + BorderThickness.Bottom);
         calculatedContentWidth = Width - (BorderThickness.Left + BorderThickness.Right);
-        var clip = new RectangleGeometry(new Rect(0, 0, calculatedContentWidth, calculatedContentHeight), CornerRadius.TopLeft, CornerRadius.BottomRight);
+        var clip = new RectangleGeometry(
+            new Rect(0, 0, calculatedContentWidth, calculatedContentHeight), 
+            CornerRadius.TopLeft,
+            CornerRadius.BottomRight);
         clip.Freeze();
         contentClip = clip;
         if (Child != null && Child is FrameworkElement fe)
         {
-            fe.Margin = new Thickness((BorderThickness.Left - BorderThickness.Right),(BorderThickness.Top - BorderThickness.Bottom),0,0);
+            fe.Margin = new Thickness(
+                BorderThickness.Left - BorderThickness.Right, 
+                BorderThickness.Top - BorderThickness.Bottom, 
+                0, 0);
         }
     }
 }

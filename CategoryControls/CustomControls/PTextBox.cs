@@ -12,24 +12,48 @@ namespace CategoryControls.CustomControls;
 public class PTextBox : TextBox
 {
     public static DependencyProperty BorderHoverColorProperty =
-        DependencyProperty.Register(nameof(BorderHoverColor), typeof(Brush), typeof(PTextBox), new PropertyMetadata(new SolidColorBrush(Colors.CadetBlue)));
+        DependencyProperty.Register(
+            nameof(BorderHoverColor), 
+            typeof(Brush), 
+            typeof(PTextBox), 
+            new PropertyMetadata(new SolidColorBrush(Colors.CadetBlue)));
 
     public static DependencyProperty BorderFocusColorProperty =
-        DependencyProperty.Register(nameof(BorderFocusColor), typeof(Brush), typeof(PTextBox), new PropertyMetadata(new SolidColorBrush(Colors.Blue)));
+        DependencyProperty.Register(
+            nameof(BorderFocusColor), 
+            typeof(Brush), 
+            typeof(PTextBox), 
+            new PropertyMetadata(new SolidColorBrush(Colors.Blue)));
 
     public static DependencyProperty PlaceholderTextProperty =
-        DependencyProperty.Register(nameof(PlaceholderText), typeof(string), typeof(PTextBox), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register(
+            nameof(PlaceholderText), 
+            typeof(string), 
+            typeof(PTextBox), 
+            new PropertyMetadata(string.Empty));
 
     public static DependencyProperty PlaceholderTextColorProperty =
-        DependencyProperty.Register(nameof(PlaceholderTextColor), typeof(Brush), typeof(PTextBox));
+        DependencyProperty.Register(
+            nameof(PlaceholderTextColor), 
+            typeof(Brush), 
+            typeof(PTextBox));
 
     private static DependencyPropertyKey HasTextPropertyKey =
-        DependencyProperty.RegisterReadOnly(nameof(HasText), typeof(bool), typeof(PTextBox), new PropertyMetadata(false));
+        DependencyProperty.RegisterReadOnly(
+            nameof(HasText), 
+            typeof(bool), 
+            typeof(PTextBox), 
+            new PropertyMetadata(false));
 
-    public static DependencyProperty HasTextProperty = HasTextPropertyKey.DependencyProperty;
+    public static DependencyProperty HasTextProperty = 
+        HasTextPropertyKey.DependencyProperty;
 
     public static DependencyProperty HidePlaceholderOnFocusProperty =
-        DependencyProperty.Register(nameof(HidePlaceholderOnFocus), typeof(bool), typeof(PTextBox), new PropertyMetadata(true));
+        DependencyProperty.Register(
+            nameof(HidePlaceholderOnFocus), 
+            typeof(bool), 
+            typeof(PTextBox), 
+            new PropertyMetadata(true));
 
     public Brush BorderHoverColor
     {
@@ -63,7 +87,7 @@ public class PTextBox : TextBox
 
     public bool HidePlaceholderOnFocus
     {
-        get { return (bool)GetValue(HidePlaceholderOnFocusProperty);  }
+        get { return (bool)GetValue(HidePlaceholderOnFocusProperty); }
         set { SetValue(HidePlaceholderOnFocusProperty, value); }
     }
 
@@ -71,7 +95,9 @@ public class PTextBox : TextBox
 
     static PTextBox()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(PTextBox), new FrameworkPropertyMetadata(typeof(PTextBox)));
+        DefaultStyleKeyProperty.OverrideMetadata(
+            typeof(PTextBox), 
+            new FrameworkPropertyMetadata(typeof(PTextBox)));
     }
 
     public PTextBox() : base()

@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Shortcut.lnk" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Remove="CustomControls\PTextBoxStyle.xaml" />
   </ItemGroup>
 

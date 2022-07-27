@@ -56,5 +56,31 @@
         </Setter>
     </Style>
     
+    <!--STYLE FOR StricBorder-->
+    <Style TargetType="{x:Type cc:RoundedBorder}">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="PART_Border" 
+                            Width="{Binding Width, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
+                            Height="{Binding Height, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
+                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
+                            Background="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}">
+                        <Border x:Name="PART_Content" 
+                                Width="{Binding calculatedContentWidth, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
+                                Height="{Binding calculatedContentHeight, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
+                                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
+                                Clip="{Binding contentClip, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
+                                Background="{Binding Background, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}">
+                            <ContentPresenter Content="{Binding Child, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"/>
+                        </Border>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
+    </Style>
+    
     
 </ResourceDictionary>

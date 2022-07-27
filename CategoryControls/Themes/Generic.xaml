@@ -1,7 +1,6 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:CategoryControls"
     xmlns:cc="clr-namespace:CategoryControls.CustomControls">
 
 
@@ -68,10 +67,10 @@
                             CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
                             Background="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}">
                         <Border x:Name="PART_Content" 
-                                Width="{Binding calculatedContentWidth, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
-                                Height="{Binding calculatedContentHeight, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
+                                Width="{Binding CalculatedContentWidth, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
+                                Height="{Binding CalculatedContentHeight, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
                                 CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
-                                Clip="{Binding contentClip, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
+                                Clip="{Binding ContentClip, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"
                                 Background="{Binding Background, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}">
                             <ContentPresenter Content="{Binding Child, RelativeSource={RelativeSource AncestorType=cc:RoundedBorder}}"/>
                         </Border>

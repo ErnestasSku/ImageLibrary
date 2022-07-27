@@ -23,18 +23,18 @@ public class PTextBox : TextBox
         DependencyProperty.Register(nameof(BorderFocusColor), typeof(Brush), typeof(PTextBox), new PropertyMetadata(new SolidColorBrush(Colors.Blue)));
 
     public static DependencyProperty PlaceholderTextProperty =
-        DependencyProperty.Register("PlaceholderText", typeof(string), typeof(PTextBox), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register(nameof(PlaceholderText), typeof(string), typeof(PTextBox), new PropertyMetadata(string.Empty));
 
     public static DependencyProperty PlaceholderTextColorProperty =
-        DependencyProperty.Register("PlaceholderTextColor", typeof(Brush), typeof(PTextBox));
+        DependencyProperty.Register(nameof(PlaceholderTextColor), typeof(Brush), typeof(PTextBox));
 
     private static DependencyPropertyKey HasTextPropertyKey =
-        DependencyProperty.RegisterReadOnly("HasText", typeof(bool), typeof(PTextBox), new PropertyMetadata(false));
+        DependencyProperty.RegisterReadOnly(nameof(HasText), typeof(bool), typeof(PTextBox), new PropertyMetadata(false));
 
     public static DependencyProperty HasTextProperty = HasTextPropertyKey.DependencyProperty;
 
     public static DependencyProperty HidePlaceholderOnFocusProperty =
-        DependencyProperty.Register("HidePlaceholderOnFocus", typeof(bool), typeof(PTextBox), new PropertyMetadata(true));
+        DependencyProperty.Register(nameof(HidePlaceholderOnFocus), typeof(bool), typeof(PTextBox), new PropertyMetadata(true));
 
     public Brush BorderHoverColor
     {

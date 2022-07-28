@@ -62,10 +62,10 @@ public static class ColorUtilities
         }
         else
         {
-            saturation = (delta / colorMax) * 100;
+            saturation = (delta / colorMax);
         }
 
-        value = colorMax * 100;
+        value = colorMax;
         return new HSV() { Hue = hue, Saturation = saturation, Value = value };
 
     }
@@ -79,16 +79,16 @@ public static class ColorUtilities
     {
 
         double color = value * saturation;
-        double X = color * (1 - Math.Abs(hue / 60) % 2 - 1) % 360;
+        double X = color * (1 - Math.Abs(hue / 60 % 2 - 1)) % 360;
         double m = value - color;
 
         var (rT, gT, bT) = calculateRGBPrime(color, X, hue);
 
         RGB rgb = new RGB()
         {
-            Red = (int)(rT + m) * 255,
-            Green = (int)(gT + m) * 255,
-            Blue = (int)(bT + m) * 255
+            Red = (int)Math.Round(((rT + m) * 255.0)),
+            Green = (int)Math.Round((gT + m) * 255.0),
+            Blue = (int)Math.Round((bT + m) * 255.0)
         };
         return rgb;
     }
@@ -100,27 +100,27 @@ public static class ColorUtilities
 
     private static (double, double, double) calculateRGBPrime(double color, double x, double hue)
     {
-        if (hue <= 0 && hue < 60)
+        if (hue >= 0 && hue < 60)
         {
             return (color, x, 0);
         }
-        else if (hue <= 60 && hue < 120)
+        else if (hue >= 60 && hue < 120)
         {
             return (x, color, 0);
         }
-        else if (hue <= 120 && hue < 180)
+        else if (hue >= 120 && hue < 180)
         {
             return (0, color, x);
         }
-        else if (hue <= 180 && hue < 240)
+        else if (hue >= 180 && hue < 240)
         {
             return (0, x, color);
         }
-        else if (hue <= 240 && hue < 300)
+        else if (hue >= 240 && hue < 300)
         {
             return (x, 0, color);
         }
-        else if (hue <= 300 && hue < 360)
+        else if (hue >= 300 && hue < 360)
         {
             return (color, 0, x);
         }

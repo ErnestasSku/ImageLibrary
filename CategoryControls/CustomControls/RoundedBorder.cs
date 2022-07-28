@@ -100,7 +100,7 @@ public class RoundedBorder : Control, INotifyPropertyChanged
         set { SetValue(BorderThicknessProperty, value); }
     }
 
-    public UIElement Child
+    public UIElement? Child
     {
         get { return (UIElement)GetValue(ChildProperty); }
         set { SetValue(ChildProperty, value); }
@@ -207,7 +207,8 @@ public class RoundedBorder : Control, INotifyPropertyChanged
         if (d is RoundedBorder roundedBorder)
         {
             roundedBorder.Child = (UIElement)e.NewValue;
-            roundedBorder.Child.ClipToBounds = roundedBorder.UseStrictMode;
+            if (roundedBorder.Child != null)
+                roundedBorder.Child.ClipToBounds = roundedBorder.UseStrictMode;
             roundedBorder.CalculateContentValues();
         }
     }

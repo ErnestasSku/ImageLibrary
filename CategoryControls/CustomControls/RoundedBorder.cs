@@ -223,14 +223,18 @@ public class RoundedBorder : Control, INotifyPropertyChanged
     {
         if (!UseStrictMode)
         {
-            CalculatedContentHeight = Height;
-            CalculatedContentWidth = Width;
+            CalculatedContentHeight = ActualHeight != 0 ? ActualHeight : Height;
+            CalculatedContentWidth = ActualHeight != 0 ? ActualHeight : Width;
             ContentClip = Geometry.Empty;
         }
         else
         {
-            CalculatedContentHeight = Height - (BorderThickness.Top + BorderThickness.Bottom);
-            CalculatedContentWidth = Width - (BorderThickness.Left + BorderThickness.Right);
+            CalculatedContentHeight = ActualHeight != 0 ?
+                ActualHeight - (BorderThickness.Top + BorderThickness.Bottom)
+                : Height - (BorderThickness.Top + BorderThickness.Bottom);
+            CalculatedContentWidth =  ActualWidth != 0 ?
+                ActualWidth - (BorderThickness.Left + BorderThickness.Right)
+                : Width - (BorderThickness.Left + BorderThickness.Right);
 
             Geometry clip;
             try

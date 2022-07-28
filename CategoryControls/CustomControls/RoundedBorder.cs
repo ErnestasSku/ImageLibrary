@@ -21,7 +21,7 @@ public class RoundedBorder : Control, INotifyPropertyChanged
             nameof(UseStrictMode),
             typeof(bool), typeof(RoundedBorder),
             new PropertyMetadata(
-                false,
+                true,
                 UseStrictModePropertyChanged));
     
     /// <summary>

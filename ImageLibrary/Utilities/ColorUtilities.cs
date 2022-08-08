@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace ImageLibrary.Utilities;
 
@@ -69,6 +67,7 @@ public static class ColorUtilities
         return new HSV() { Hue = hue, Saturation = saturation, Value = value };
 
     }
+
 
     public static HSV RGBtoHSV(RGB values)
     {
@@ -150,5 +149,18 @@ public static class ColorUtilities
         return Convert.ToString(red, 16).PadLeft(2, '0') +
                Convert.ToString(green, 16).PadLeft(2, '0') +
                Convert.ToString(blue, 16).PadLeft(2, '0');
+    }
+
+    public static Color MakeBackground(Color color, double coeficient)
+    {
+        var hsv = RGBtoHSV(color.R, color.G, color.B);
+        
+        if (hsv.Value - coeficient >= 0.0)
+            hsv.Value -= coeficient;
+        else if (hsv.Value + coeficient <= 1.0)
+            hsv.Value += coeficient;
+
+        var rgb = HSVtoRGB(hsv);
+        return Color.FromRgb((byte)rgb.Red, (byte)rgb.Green, (byte)rgb.Blue);
     }
 }

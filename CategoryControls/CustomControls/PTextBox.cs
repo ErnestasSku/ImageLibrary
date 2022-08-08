@@ -82,7 +82,7 @@ public class PTextBox : TextBox
     public bool HasText
     {
         get { return (bool)GetValue(HasTextProperty); }
-        set { SetValue(HasTextPropertyKey, value); }
+        private set { SetValue(HasTextPropertyKey, value); }
     }
 
     public bool HidePlaceholderOnFocus

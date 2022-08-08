@@ -27,7 +27,8 @@
                                    Margin="2,0,0,1"
                                    Padding="2,0,0,0"
                                    VerticalAlignment="Center" 
-                                   FontStyle="Italic"/>
+                                   FontStyle="Italic"
+                                   FontSize="{TemplateBinding FontSize}"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -57,7 +58,6 @@
     
     <!--STYLE FOR StricBorder-->
     <Style TargetType="{x:Type cc:RoundedBorder}">
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>

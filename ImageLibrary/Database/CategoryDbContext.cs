@@ -53,7 +53,7 @@ public class CategoryDbContext : DbContext
             //.UsingEntity<ImageTag>();
 
         modelBuilder.Entity<Image>()
-            .HasMany(i => i.Groups)
+            .HasOne(i => i.Group)
             .WithMany(g => g.GroupImages);
             //.UsingEntity<GroupImage>();
 
@@ -86,13 +86,12 @@ public class CategoryDbContext : DbContext
             .WithOne(t => t.TagMetaType);
         
         modelBuilder.Entity<TagMetaType>()
-            .HasCheckConstraint("CK_Tag_RedVal", "[Red] >= 0 AND [Red] <= 255");
+            .Property(tmt => tmt.Background)
+            .HasMaxLength(6);
 
         modelBuilder.Entity<TagMetaType>()
-            .HasCheckConstraint("CH_Tag_GreenVal", "[Green] >=0 AND [Green] <= 255");
-
-        modelBuilder.Entity<TagMetaType>()
-            .HasCheckConstraint("CH_Tag_BlueVal", "[Blue] >= 0 AND [Blue] <= 255");
+            .Property(tmt => tmt.Foreground)
+            .HasMaxLength(6);
 
 
         // Set TagAssosiactions

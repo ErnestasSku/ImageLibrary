@@ -13,7 +13,7 @@ public class Image
 
 
     public List<Tag> Tags { get; set; }
-    public List<Group> Groups { get; set; }
+    public Group? Group { get; set; }
 
     public Image(int id, string path, string name)
     {
@@ -21,7 +21,7 @@ public class Image
         Path = path;
         Name = name;
         Tags = new List<Tag>();
-        Groups = new List<Group>();
+        Group = null;
     }
 
     public Image(string path, string name)
@@ -30,7 +30,7 @@ public class Image
         Path = path;
         Name = name;
         Tags = new List<Tag>();
-        Groups = new List<Group>();
+        Group = null;
     }
 
     public Image(string path)
@@ -40,6 +40,6 @@ public class Image
         FileInfo fileInfo = new FileInfo(Path);
         Name = fileInfo.Name;
         Tags = new List<Tag>();
-        Groups = new List<Group>();
+        Group = null;
     }
 }

@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <None Remove="GeneralAssets\check.png" />
+    <None Remove="GeneralAssets\color_wheel_black.png" />
+    <None Remove="GeneralAssets\color_wheel_transparent.png" />
     <None Remove="GeneralAssets\icons8-eye-30.png" />
     <None Remove="GeneralAssets\icons8-pencil-drawing-30.png" />
     <None Remove="GeneralAssets\remove.png" />
@@ -44,6 +46,8 @@
 
   <ItemGroup>
     <Resource Include="GeneralAssets\check.png" />
+    <Resource Include="GeneralAssets\color_wheel_black.png" />
+    <Resource Include="GeneralAssets\color_wheel_transparent.png" />
     <Resource Include="GeneralAssets\icons8-eye-30.png" />
     <Resource Include="GeneralAssets\icons8-pencil-drawing-30.png" />
     <Resource Include="GeneralAssets\remove.png" />

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace CategoryControls.CustomControls;
@@ -93,6 +94,8 @@ public class PTextBox : TextBox
 
     private string _displayPlaceholderText { get; set; } = string.Empty;
 
+    private Brush _defaultBorderColor { get; set; } = new SolidColorBrush(Colors.Black);
+
     static PTextBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(
@@ -109,6 +112,7 @@ public class PTextBox : TextBox
     {
         base.OnApplyTemplate();
         _displayPlaceholderText = PlaceholderText;
+        _defaultBorderColor = BorderBrush;
     }
 
 
@@ -134,5 +138,18 @@ public class PTextBox : TextBox
     {
         base.OnTextChanged(e);
         HasText = Text.Length != 0;
+    }
+
+    protected override void OnMouseEnter(MouseEventArgs e)
+    {
+        base.OnMouseEnter(e);
+        BorderBrush = BorderHoverColor;
+        
+    }
+
+    protected override void OnMouseLeave(MouseEventArgs e)
+    {
+        base.OnMouseLeave(e);
+        BorderBrush = _defaultBorderColor; 
     }
 }

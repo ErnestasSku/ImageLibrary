@@ -81,5 +81,25 @@
         
     </Style>
     
+    <!--STYLE FOR VALIDATION BOX -->
+    <Style TargetType="{x:Type cc:ValidationBox}">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type cc:ValidationBox}">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+
+                        </Grid>
+
+                    </Border>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     
 </ResourceDictionary>

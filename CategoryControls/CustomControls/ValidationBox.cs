@@ -156,7 +156,7 @@ public class ValidationBox : TextBox, IValidationBox
     public bool ShowInvalidIcon;
 
     /*
-     * Animation Lenght
+     * Animation Length
      * Animation Repeat
      */
 

@@ -475,6 +475,27 @@ public class ValidationBox : TextBox, IValidationBox
 
     #endregion
 
+    #region Routed Events
+    public static readonly RoutedEvent ValidationStateChangedEvent =
+        EventManager.RegisterRoutedEvent(
+            nameof(ValidationStateChanged),
+            RoutingStrategy.Bubble,
+            typeof(RoutedPropertyChangedEventArgs<ValidationBoxState>), 
+            typeof(ValidationBox));
+
+    public event RoutedPropertyChangedEventHandler<ValidationBoxState> ValidationStateChanged
+    {
+        add
+        {
+            AddHandler(ValidationStateChangedEvent, value);  
+        }
+        remove
+        { 
+            RemoveHandler(ValidationStateChangedEvent, value); 
+        }
+    }
+
+    #endregion
 
     private ValidationBoxState _state;
 
@@ -489,6 +510,7 @@ public class ValidationBox : TextBox, IValidationBox
         {
             if (value != _state)
             {
+                RaiseEvent(new RoutedPropertyChangedEventArgs<ValidationBoxState>(_state, value, ValidationStateChangedEvent));
                 _state = value;
             }
         }

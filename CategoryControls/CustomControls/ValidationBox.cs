@@ -351,7 +351,6 @@ public class ValidationBox : TextBox, IValidationBox
         set { SetValue(IncompleteBorderColorProperty, value); }
     }
 
-
     /// <summary>
     /// Color of the text in the textvox when state is evaluated to Valid.
     /// </summary>
@@ -424,7 +423,6 @@ public class ValidationBox : TextBox, IValidationBox
         set { SetValue(IncompleteBackgroundColorProperty, value); }
     }
 
-
     /// <summary>
     /// Determines whether validation box should colored/highlighted when it is no longer focued.
     /// </summary>
@@ -461,7 +459,6 @@ public class ValidationBox : TextBox, IValidationBox
         set { SetValue(IncompleteHighlightWithoutFocusProperty, value); }
     }
 
-
     /// <summary>
     /// Determines whether an icon should be shown when state is evaluated to Valid.
     /// </summary>
@@ -476,11 +473,27 @@ public class ValidationBox : TextBox, IValidationBox
     //public Image ValidIcon;
     //public Image InvalidIcon;
 
-
     #endregion
 
 
     private ValidationBoxState _state;
+
+    public ValidationBoxState State
+    {
+        get
+        {
+            return _state;
+        }
+
+        private set
+        {
+            if (value != _state)
+            {
+                _state = value;
+            }
+        }
+    }
+
     private Storyboard _horizontalShakeStoryboard;
     private Storyboard _verticalShakeStoryboard;
 
@@ -498,12 +511,14 @@ public class ValidationBox : TextBox, IValidationBox
 
     public override void OnApplyTemplate()
     {
+        _horizontalShakeStoryboard = (Storyboard)Template.FindName("HorizontalShake", this);
+        _verticalShakeStoryboard = (Storyboard)Template.FindName("VerticalShake", this);
         base.OnApplyTemplate();
     }
 
     protected override void OnTextChanged(TextChangedEventArgs e)
     {
-        _state = TextValidationMethod(Text);
+        State = TextValidationMethod(Text);
         UpdateControl();
         base.OnTextChanged(e);
     }

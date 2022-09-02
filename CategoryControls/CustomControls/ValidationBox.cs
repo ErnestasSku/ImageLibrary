@@ -91,7 +91,7 @@ public class ValidationBox : TextBox, IValidationBox
             nameof(ValidBorderColor),
             typeof(Brush),
             typeof(ValidationBox),
-            new PropertyMetadata(Colors.Green));
+            new PropertyMetadata(new SolidColorBrush(Colors.Green)));
 
     /// <summary>
     /// Border Color property registration for when the text is evaulated to Invalid.
@@ -101,7 +101,7 @@ public class ValidationBox : TextBox, IValidationBox
             nameof(InvalidBorderColor),
             typeof(Brush),
             typeof(ValidationBox),
-            new PropertyMetadata(Colors.Red));
+            new PropertyMetadata(new SolidColorBrush (Colors.Red)));
     /// <summary>
     /// Border Color property registration for when the text is evaulated to Normal.
     /// </summary>
@@ -110,7 +110,7 @@ public class ValidationBox : TextBox, IValidationBox
             nameof(NormalBorderColor),
             typeof(Brush),
             typeof(ValidationBox),
-            new PropertyMetadata(Colors.Gray));
+            new PropertyMetadata(new SolidColorBrush(Colors.Gray)));
     
     /// <summary>
     /// Border Color property registration for when the text is evaulated to Incomplete.
@@ -120,7 +120,7 @@ public class ValidationBox : TextBox, IValidationBox
             nameof(IncompleteBorderColor),
             typeof(Brush),
             typeof(ValidationBox),
-            new PropertyMetadata(Colors.Gray));
+            new PropertyMetadata(new SolidColorBrush(Colors.Gray)));
 
     /// <summary>
     /// Text Color property registration for when the text is evaulated to Valid.
@@ -130,7 +130,7 @@ public class ValidationBox : TextBox, IValidationBox
              nameof(ValidTextColor),
              typeof(Brush),
              typeof(ValidationBox),
-             new PropertyMetadata(Colors.Green));
+             new PropertyMetadata(new SolidColorBrush(Colors.Green)));
 
     /// <summary>
     /// Text Color property registration for when the text is evaulated to Invalid.
@@ -140,7 +140,7 @@ public class ValidationBox : TextBox, IValidationBox
              nameof(InvalidTextColor),
              typeof(Brush),
              typeof(ValidationBox),
-             new PropertyMetadata(Colors.Red));
+             new PropertyMetadata(new SolidColorBrush(Colors.Red)));
 
     /// <summary>
     /// Text Color property registration for when the text is evaulated to Normal.
@@ -150,7 +150,7 @@ public class ValidationBox : TextBox, IValidationBox
              nameof(NormalTextColor),
              typeof(Brush),
              typeof(ValidationBox),
-             new PropertyMetadata(Colors.Black));
+             new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
     /// <summary>
     /// Text Color property registration for when the text is evaulated to Incomplete.
@@ -160,7 +160,7 @@ public class ValidationBox : TextBox, IValidationBox
              nameof(IncompleteTextColor),
              typeof(Brush),
              typeof(ValidationBox),
-             new PropertyMetadata(Colors.Black));
+             new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
     /// <summary>
     /// Background Color Property registration for when the state is evaluated to Valid.
@@ -170,7 +170,7 @@ public class ValidationBox : TextBox, IValidationBox
             nameof(ValidBackgroundColor),
             typeof(Brush),
             typeof(ValidationBox),
-            new PropertyMetadata(Colors.White));
+            new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
     /// <summary>
     /// Background Color Property registration for when the state is evaluated to Invalid.
@@ -180,7 +180,7 @@ public class ValidationBox : TextBox, IValidationBox
             nameof(InvalidBackgroundColor),
             typeof(Brush),
             typeof(ValidationBox),
-            new PropertyMetadata(Colors.White));
+            new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
     /// <summary>
     /// Background Color Property registration for when the state is evaluated to Normal.
@@ -190,7 +190,7 @@ public class ValidationBox : TextBox, IValidationBox
             nameof(NormalBackgroundColor),
             typeof(Brush),
             typeof(ValidationBox),
-            new PropertyMetadata(Colors.White));
+            new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
     /// <summary>
     /// Background Color Property registration for when the state is evaluated to Incomplete.
@@ -200,7 +200,7 @@ public class ValidationBox : TextBox, IValidationBox
             nameof(IncompleteBackgroundColor),
             typeof(Brush),
             typeof(ValidationBox),
-            new PropertyMetadata(Colors.White));
+            new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
     /// <summary>
     /// Boolean property registration for Valid state which decides whether the 
@@ -510,6 +510,7 @@ public class ValidationBox : TextBox, IValidationBox
         {
             if (value != _state)
             {
+                ChangeAppearance();
                 RaiseEvent(new RoutedPropertyChangedEventArgs<ValidationBoxState>(_state, value, ValidationStateChangedEvent));
                 _state = value;
             }
@@ -533,42 +534,23 @@ public class ValidationBox : TextBox, IValidationBox
 
     public override void OnApplyTemplate()
     {
-        _horizontalShakeStoryboard = (Storyboard)Template.FindName("HorizontalShake", this);
-        _verticalShakeStoryboard = (Storyboard)Template.FindName("VerticalShake", this);
+        
+        _horizontalShakeStoryboard = (Storyboard)FindResource("HorizontalShake");
+        _verticalShakeStoryboard = (Storyboard)FindResource("VerticalShake");
         base.OnApplyTemplate();
     }
 
     protected override void OnTextChanged(TextChangedEventArgs e)
     {
         State = TextValidationMethod(Text);
-        UpdateControl();
         base.OnTextChanged(e);
     }
 
 
-    //TODO: write a proper changing function
-    private void UpdateControl()
-    {
-        if(_state == ValidationBoxState.Incomplete)
-        {
-            BorderBrush = new SolidColorBrush(Colors.Gray);
-        } 
-        else if (_state == ValidationBoxState.Valid)
-        {
-            BorderBrush = new SolidColorBrush(Colors.Green);
 
-        }
-        else if (_state == ValidationBoxState.Invalid)
-        {
-            BorderBrush = new SolidColorBrush(Colors.Red);
-
-        }
-        else
-        {
-            throw new Exception();
-        }
-    }
-
+    /// <summary>
+    /// Change state manager.
+    /// </summary>
     private void ChangeAppearance()
     {
         switch (State)
@@ -584,6 +566,7 @@ public class ValidationBox : TextBox, IValidationBox
                 break;
             case ValidationBoxState.Incomplete:
                 ChangeToIncomplete();
+                PlayAnimation();
                 break;
             default:
                 break;
@@ -621,5 +604,32 @@ public class ValidationBox : TextBox, IValidationBox
         BorderThickness = IncompleteThickness;
         Background = IncompleteBackgroundColor;
         Foreground = IncompleteTextColor;
+    }
+
+    private void PlayAnimation()
+    {
+        switch (AnimationType)
+        {
+            case AnimationType.VerticalShake:
+                if (_verticalShakeStoryboard != null)
+                {
+                    _verticalShakeStoryboard.RepeatBehavior = new RepeatBehavior(AnimationRepeat);
+                    BeginStoryboard(_verticalShakeStoryboard);
+
+                }
+                break;
+            case AnimationType.HorizontalShake:
+                if (_horizontalShakeStoryboard != null)
+                {
+                    _horizontalShakeStoryboard.RepeatBehavior = new RepeatBehavior(AnimationRepeat);
+                    BeginStoryboard(_horizontalShakeStoryboard);
+
+                }
+                break;
+            case AnimationType.None:
+                break;
+            default:
+                break;
+        }
     }
 }

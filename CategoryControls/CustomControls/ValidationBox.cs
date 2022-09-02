@@ -46,9 +46,9 @@ public class ValidationBox : TextBox, IValidationBox
     /// <summary>
     /// Border Thickness property registration for when the text is evaulated to Valid.
     /// </summary>
-    public static DependencyProperty ValidThicknesProperty =
+    public static DependencyProperty ValidThicknessProperty =
         DependencyProperty.Register(
-            nameof(ValidThicknes),
+            nameof(ValidThickness),
             typeof(Thickness),
             typeof(ValidationBox),
             new PropertyMetadata(new Thickness(1)));
@@ -282,10 +282,10 @@ public class ValidationBox : TextBox, IValidationBox
     /// <summary>
     /// Thickness Property for when the state is evaluated to Valid.
     /// </summary>
-    public Thickness ValidThicknes
+    public Thickness ValidThickness
     {
-        get { return (Thickness)GetValue(ValidThicknesProperty); }
-        set { SetValue(ValidThicknesProperty, value); }
+        get { return (Thickness)GetValue(ValidThicknessProperty); }
+        set { SetValue(ValidThicknessProperty, value); }
     }
 
     /// <summary>
@@ -593,7 +593,7 @@ public class ValidationBox : TextBox, IValidationBox
     private void ChangeToValid()
     {
         BorderBrush = ValidBorderColor;
-        BorderThickness = ValidThicknes;
+        BorderThickness = ValidThickness;
         Background = ValidBackgroundColor;
         Foreground = ValidTextColor;
 

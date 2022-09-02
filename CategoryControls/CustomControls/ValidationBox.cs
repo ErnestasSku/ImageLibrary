@@ -568,4 +568,58 @@ public class ValidationBox : TextBox, IValidationBox
             throw new Exception();
         }
     }
+
+    private void ChangeAppearance()
+    {
+        switch (State)
+        {
+            case ValidationBoxState.Valid:
+                ChangeToValid();
+                break;
+            case ValidationBoxState.Invalid:
+                ChangeToInvalid();
+                break;
+            case ValidationBoxState.Normal:
+                ChangeToNormal();
+                break;
+            case ValidationBoxState.Incomplete:
+                ChangeToIncomplete();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void ChangeToValid()
+    {
+        BorderBrush = ValidBorderColor;
+        BorderThickness = ValidThicknes;
+        Background = ValidBackgroundColor;
+        Foreground = ValidTextColor;
+
+    }
+
+    private void ChangeToInvalid()
+    {
+        BorderBrush = InvalidBorderColor;
+        BorderThickness = InvalidThickness;
+        Background = InvalidBackgroundColor;
+        Foreground = InvalidTextColor;
+    }
+
+    private void ChangeToNormal()
+    {
+        BorderBrush = NormalBorderColor;
+        BorderThickness = NormalThickness;
+        Background = NormalBackgroundColor;
+        Foreground = NormalTextColor;
+    }
+
+    private void ChangeToIncomplete()
+    {
+        BorderBrush = IncompleteBorderColor;
+        BorderThickness = IncompleteThickness;
+        Background = IncompleteBackgroundColor;
+        Foreground = IncompleteTextColor;
+    }
 }

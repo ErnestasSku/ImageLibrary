@@ -84,7 +84,7 @@
     <!--STYLE FOR VALIDATION BOX -->
     <Style TargetType="{x:Type cc:ValidationBox}">
         <Style.Resources>
-            <Storyboard x:Name="HorizontalShake">
+            <Storyboard x:Key="HorizontalShake">
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.(TranslateTransform.X)" RepeatBehavior="1x">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="2"/>
@@ -92,8 +92,8 @@
                     <EasingDoubleKeyFrame KeyTime="0:0:0.20" Value="-2"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="0"/>
                 </DoubleAnimationUsingKeyFrames>
-
-                <Storyboard x:Name="VerticalShake">
+            </Storyboard>
+            <Storyboard x:Key="VerticalShake">
                     <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.(TranslateTransform.Y)" RepeatBehavior="1x">
                         <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0"/>
                         <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="2"/>
@@ -101,7 +101,7 @@
                         <EasingDoubleKeyFrame KeyTime="0:0:0.20" Value="-2"/>
                         <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="0"/>
                     </DoubleAnimationUsingKeyFrames>
-
+                </Storyboard>
         </Style.Resources>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="Gray"/>

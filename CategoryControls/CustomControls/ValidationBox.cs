@@ -1,6 +1,8 @@
 ﻿using CategoryControls.Datatypes;
 using CategoryControls.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -510,12 +512,15 @@ public class ValidationBox : TextBox, IValidationBox
         {
             if (value != _state)
             {
-                ChangeAppearance();
                 RaiseEvent(new RoutedPropertyChangedEventArgs<ValidationBoxState>(_state, value, ValidationStateChangedEvent));
                 _state = value;
+                ChangeAppearance();
             }
         }
     }
+
+
+    private Border _Main;
 
     private Storyboard _horizontalShakeStoryboard;
     private Storyboard _verticalShakeStoryboard;
@@ -537,6 +542,7 @@ public class ValidationBox : TextBox, IValidationBox
         
         _horizontalShakeStoryboard = (Storyboard)FindResource("HorizontalShake");
         _verticalShakeStoryboard = (Storyboard)FindResource("VerticalShake");
+        _Main = (Border)FindName("Main_Border");
         base.OnApplyTemplate();
     }
 
@@ -544,6 +550,7 @@ public class ValidationBox : TextBox, IValidationBox
     {
         State = TextValidationMethod(Text);
         base.OnTextChanged(e);
+        PlayAnimation();
     }
 
 
@@ -560,13 +567,13 @@ public class ValidationBox : TextBox, IValidationBox
                 break;
             case ValidationBoxState.Invalid:
                 ChangeToInvalid();
+                PlayAnimation();
                 break;
             case ValidationBoxState.Normal:
                 ChangeToNormal();
                 break;
             case ValidationBoxState.Incomplete:
                 ChangeToIncomplete();
-                PlayAnimation();
                 break;
             default:
                 break;
@@ -608,28 +615,82 @@ public class ValidationBox : TextBox, IValidationBox
 
     private void PlayAnimation()
     {
-        switch (AnimationType)
+        Storyboard a = CreateAnimation();
+        a.Begin(this);
+        BeginStoryboard(a);
+        //_horizontalShakeStoryboard.Begin(this);
+        //this.PlayAnimation();
+        //BeginAnimation(_Main., _horizontalShakeStoryboard);
+        //switch (AnimationType)
+        //{
+        //    case AnimationType.VerticalShake:
+        //        if (_verticalShakeStoryboard != null)
+        //        {
+        //            //_verticalShakeStoryboard.RepeatBehavior = new RepeatBehavior(AnimationRepeat);
+        //            this.BeginStoryboard(_verticalShakeStoryboard);
+
+        //        }
+        //        break;
+        //    case AnimationType.HorizontalShake:
+        //        if (_horizontalShakeStoryboard != null)
+        //        {
+        //            //_horizontalShakeStoryboard.RepeatBehavior = new RepeatBehavior(AnimationRepeat);
+        //            //this.BeginStoryboard(_horizontalShakeStoryboard);
+        //            var a = CreateAnimation();
+        //            BeginStoryboard(a);
+
+        //        }
+        //        break;
+        //    case AnimationType.None:
+        //        break;
+        //    default:
+        //        break;
+        //}
+    }
+
+    private Storyboard CreateAnimation()
+    {
+        Storyboard storyboard = new Storyboard();
+
+        List<DoubleAnimation> doubleAnims = new List<DoubleAnimation>()
         {
-            case AnimationType.VerticalShake:
-                if (_verticalShakeStoryboard != null)
-                {
-                    _verticalShakeStoryboard.RepeatBehavior = new RepeatBehavior(AnimationRepeat);
-                    BeginStoryboard(_verticalShakeStoryboard);
+            new() {From = 0, To = 2, Duration = new Duration(TimeSpan.FromMilliseconds(100))},
+            new() {From = 2, To = -2, Duration = new Duration(TimeSpan.FromMilliseconds(100))},
+            new() {From = -2, To = 2, Duration = new Duration(TimeSpan.FromMilliseconds(100))},
+            new() {From = 2, To = 0, Duration = new Duration(TimeSpan.FromMilliseconds(100))}
 
-                }
-                break;
-            case AnimationType.HorizontalShake:
-                if (_horizontalShakeStoryboard != null)
-                {
-                    _horizontalShakeStoryboard.RepeatBehavior = new RepeatBehavior(AnimationRepeat);
-                    BeginStoryboard(_horizontalShakeStoryboard);
+            //new(0, new Duration(new TimeSpan(0, 0, 1))),
+            //new(2, new Duration(new TimeSpan(0, 0, 1))),
+            //new(0, new Duration(new TimeSpan(0, 0, 1))),
+            //new(-2, new Duration(new TimeSpan(0, 0, 1))),
+            //new(0, new Duration(new TimeSpan(0, 0, 1)))
+        };
 
-                }
-                break;
-            case AnimationType.None:
-                break;
-            default:
-                break;
+        //doubleAnims.ForEach(
+            //x => Storyboard.SetTargetProperty(x, new PropertyPath(TranslateTransform.XProperty)));
+        
+        foreach(var x in doubleAnims)
+        {
+            Storyboard.SetTargetProperty(x, new PropertyPath(TranslateTransform.XProperty));
+            Storyboard.SetTargetName(x, Name);
+            Storyboard.SetTarget(x, this);
+            storyboard.Children.Add(x);
         }
+
+        //doubleAnims.ForEach(x => {
+        //    Storyboard.SetTargetProperty(x, new PropertyPath(TranslateTransform.XProperty));
+        //    Storyboard.SetTargetName(x, Name);
+        //    Storyboard.SetTarget(x, this);
+        //    storyboard.Children.Add(x);
+        //    });
+
+        var a = Storyboard.GetTarget(doubleAnims[0]);
+        var b = Storyboard.GetTargetName(doubleAnims[0]);
+        var c = Storyboard.GetTargetProperty(doubleAnims[0]);
+
+
+        storyboard.RepeatBehavior = RepeatBehavior.Forever;
+        
+        return storyboard;
     }
 }

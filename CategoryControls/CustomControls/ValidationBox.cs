@@ -480,7 +480,7 @@ public class ValidationBox : TextBox, IValidationBox
         EventManager.RegisterRoutedEvent(
             nameof(ValidationStateChanged),
             RoutingStrategy.Bubble,
-            typeof(RoutedPropertyChangedEventArgs<ValidationBoxState>), 
+            typeof(RoutedPropertyChangedEventHandler<ValidationBoxState>), 
             typeof(ValidationBox));
 
     public event RoutedPropertyChangedEventHandler<ValidationBoxState> ValidationStateChanged
@@ -510,9 +510,9 @@ public class ValidationBox : TextBox, IValidationBox
         {
             if (value != _state)
             {
-                ChangeAppearance();
                 RaiseEvent(new RoutedPropertyChangedEventArgs<ValidationBoxState>(_state, value, ValidationStateChangedEvent));
                 _state = value;
+                ChangeAppearance();
             }
         }
     }

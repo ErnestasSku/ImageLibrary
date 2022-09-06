@@ -60,7 +60,7 @@ public class ValidationBox : TextBox, IValidationBox
         DependencyProperty.Register(
             nameof(InvalidThickness),
             typeof(Thickness),
-            typeof (ValidationBox),
+            typeof(ValidationBox),
             new PropertyMetadata(new Thickness(1)));
 
     /// <summary>
@@ -101,7 +101,7 @@ public class ValidationBox : TextBox, IValidationBox
             nameof(InvalidBorderColor),
             typeof(Brush),
             typeof(ValidationBox),
-            new PropertyMetadata(new SolidColorBrush (Colors.Red)));
+            new PropertyMetadata(new SolidColorBrush(Colors.Red)));
     /// <summary>
     /// Border Color property registration for when the text is evaulated to Normal.
     /// </summary>
@@ -111,7 +111,7 @@ public class ValidationBox : TextBox, IValidationBox
             typeof(Brush),
             typeof(ValidationBox),
             new PropertyMetadata(new SolidColorBrush(Colors.Gray)));
-    
+
     /// <summary>
     /// Border Color property registration for when the text is evaulated to Incomplete.
     /// </summary>
@@ -255,7 +255,7 @@ public class ValidationBox : TextBox, IValidationBox
             typeof(bool),
             typeof(ValidationBox),
             new PropertyMetadata(false));
-    
+
     /// <summary>
     /// TODO:
     /// </summary>
@@ -519,18 +519,18 @@ public class ValidationBox : TextBox, IValidationBox
         EventManager.RegisterRoutedEvent(
             nameof(ValidationStateChanged),
             RoutingStrategy.Bubble,
-            typeof(RoutedPropertyChangedEventHandler<ValidationBoxState>), 
+            typeof(RoutedPropertyChangedEventHandler<ValidationBoxState>),
             typeof(ValidationBox));
 
     public event RoutedPropertyChangedEventHandler<ValidationBoxState> ValidationStateChanged
     {
         add
         {
-            AddHandler(ValidationStateChangedEvent, value);  
+            AddHandler(ValidationStateChangedEvent, value);
         }
         remove
-        { 
-            RemoveHandler(ValidationStateChangedEvent, value); 
+        {
+            RemoveHandler(ValidationStateChangedEvent, value);
         }
     }
 
@@ -568,12 +568,12 @@ public class ValidationBox : TextBox, IValidationBox
 
     public ValidationBox() : base()
     {
-
+        State = ValidationBoxState.Normal;
     }
 
     public override void OnApplyTemplate()
     {
-        
+
         _horizontalShakeStoryboard = (Storyboard)FindResource("HorizontalShake");
         _verticalShakeStoryboard = (Storyboard)FindResource("VerticalShake");
         base.OnApplyTemplate();
@@ -583,8 +583,30 @@ public class ValidationBox : TextBox, IValidationBox
     {
         State = TextValidationMethod(Text);
         base.OnTextChanged(e);
+        if (StopInputAfterInvalid)
+        {
+            Text = Text.Substring(0, Text.Length - 1);
+        }
     }
 
+    protected override void OnLostFocus(RoutedEventArgs e)
+    {
+        base.OnLostFocus(e);
+
+        Action<ValidationBoxAppearance> app = normalActionProperties();
+        if (State == ValidationBoxState.Valid && ValidHighlightWithoutFocus)
+            app = validActionProperties();
+        else if(State == ValidationBoxState.Invalid && InvalidHighlightWithoutFocus)
+            app = invalidActionProperties();
+
+        ChangeControlProperties(app);
+    }
+
+    protected override void OnGotFocus(RoutedEventArgs e)
+    {
+        base.OnGotFocus(e);
+        ChangeAppearance();
+    }
 
 
     /// <summary>
@@ -595,52 +617,130 @@ public class ValidationBox : TextBox, IValidationBox
         switch (State)
         {
             case ValidationBoxState.Valid:
-                ChangeToValid();
+                HandleValid();
                 break;
             case ValidationBoxState.Invalid:
-                ChangeToInvalid();
+                HandleInvalid();
                 break;
             case ValidationBoxState.Normal:
-                ChangeToNormal();
+                HandleNormal();
                 break;
             case ValidationBoxState.Incomplete:
-                ChangeToIncomplete();
+                HandleIncomplete();
                 break;
             default:
                 break;
         }
     }
 
-    private void ChangeToValid()
+    /// <summary>
+    /// Valid state handler.
+    /// </summary>
+    private void HandleValid()
     {
-        BorderBrush = ValidBorderColor;
-        BorderThickness = ValidThickness;
-        Background = ValidBackgroundColor;
-        Foreground = ValidTextColor;
-
+        ChangeControlProperties(validActionProperties());
+        if (DisableAfterValid)
+        {
+            IsEnabled = false;
+        }
     }
 
-    private void ChangeToInvalid()
+    /// <summary>
+    /// Invalid state handler.
+    /// </summary>
+    private void HandleInvalid()
     {
-        BorderBrush = InvalidBorderColor;
-        BorderThickness = InvalidThickness;
-        Background = InvalidBackgroundColor;
-        Foreground = InvalidTextColor;
+        ChangeControlProperties(invalidActionProperties());
     }
 
-    private void ChangeToNormal()
+    /// <summary>
+    /// Normal state handler.
+    /// </summary>
+    private void HandleNormal()
     {
-        BorderBrush = NormalBorderColor;
-        BorderThickness = NormalThickness;
-        Background = NormalBackgroundColor;
-        Foreground = NormalTextColor;
+        ChangeControlProperties(normalActionProperties());
     }
 
-    private void ChangeToIncomplete()
+    /// <summary>
+    /// Incomplete state handler.
+    /// </summary>
+    private void HandleIncomplete()
     {
-        BorderBrush = IncompleteBorderColor;
-        BorderThickness = IncompleteThickness;
-        Background = IncompleteBackgroundColor;
-        Foreground = IncompleteTextColor;
+        ChangeControlProperties(incompleteActionProperties());
     }
+        
+
+    /// <summary>
+    /// Valid state properties action.
+    /// </summary>
+    /// <returns></returns>
+    private Action<ValidationBoxAppearance> validActionProperties() => (valid => 
+    { 
+        valid.BorderBrush = ValidBorderColor;
+        valid.BorderThickness = ValidThickness;
+        valid.Background = ValidBackgroundColor;
+        valid.Foreground = ValidTextColor;
+    });
+
+    /// <summary>
+    /// Invalid state properties action.
+    /// </summary>
+    /// <returns></returns>
+    private Action<ValidationBoxAppearance> invalidActionProperties() => (invalid => 
+    {
+        invalid.BorderBrush = InvalidBorderColor;
+        invalid.BorderThickness = InvalidThickness;
+        invalid.Background = InvalidBackgroundColor;
+        invalid.Foreground = InvalidTextColor;
+    });
+
+    /// <summary>
+    /// Normal state properties action.
+    /// </summary>
+    /// <returns></returns>
+    private Action<ValidationBoxAppearance> normalActionProperties() => (normal =>
+    {
+        normal.BorderBrush = NormalBorderColor;
+        normal.BorderThickness = NormalThickness;
+        normal.Background = NormalBackgroundColor;
+        normal.Foreground = NormalTextColor;
+    });
+
+    /// <summary>
+    /// Incomplete state properties action.
+    /// </summary>
+    /// <returns></returns>
+    private Action<ValidationBoxAppearance> incompleteActionProperties() => (incomplete =>
+    {
+        incomplete.BorderBrush = IncompleteBorderColor;
+        incomplete.BorderThickness = IncompleteThickness;
+        incomplete.Background = IncompleteBackgroundColor;
+        incomplete.Foreground = IncompleteTextColor;
+    });
+
+    /// <summary>
+    /// Changes the appearance of the control based on the given values.
+    /// </summary>
+    /// <param name="structure">An action which represents the supplied new visual change.</param>
+    private void ChangeControlProperties(Action<ValidationBoxAppearance>? structure)
+    {
+        ValidationBoxAppearance newValues = new();
+        structure?.Invoke(newValues);
+        BorderBrush = newValues.BorderBrush ?? BorderBrush;
+        BorderThickness = newValues.BorderThickness ?? BorderThickness;
+        Background = newValues.Background ?? Background;
+        Foreground = newValues.Foreground ?? Foreground;
+    }
+}
+
+/// <summary> 
+/// It is used, so the appearrance would be changed only inside a single function.
+/// </summary>
+public class ValidationBoxAppearance
+{
+    public Brush? BorderBrush { get; set; }
+    public Thickness? BorderThickness { get; set; }
+    public Brush? Background { get; set; }
+    public Brush? Foreground { get; set; }
+
 }

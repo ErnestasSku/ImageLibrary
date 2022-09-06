@@ -246,6 +246,26 @@ public class ValidationBox : TextBox, IValidationBox
             typeof(ValidationBox),
             new PropertyMetadata(false));
 
+    /// <summary>
+    /// TODO: 
+    /// </summary>
+    public static DependencyProperty StopInputAfterInvalidProperty =
+        DependencyProperty.Register(
+            nameof(StopInputAfterInvalid),
+            typeof(bool),
+            typeof(ValidationBox),
+            new PropertyMetadata(false));
+    
+    /// <summary>
+    /// TODO:
+    /// </summary>
+    public static DependencyProperty DisableAfterValidProperty =
+        DependencyProperty.Register(
+            nameof(DisableAfterValid),
+            typeof(bool),
+            typeof(ValidationBox),
+            new PropertyMetadata(false));
+
     #endregion
 
     #region public Properties
@@ -459,6 +479,25 @@ public class ValidationBox : TextBox, IValidationBox
         set { SetValue(IncompleteHighlightWithoutFocusProperty, value); }
     }
 
+
+    /// <summary>
+    /// TODO:
+    /// </summary>
+    public bool StopInputAfterInvalid
+    {
+        get { return (bool)GetValue(StopInputAfterInvalidProperty); }
+        set { SetValue(StopInputAfterInvalidProperty, value); }
+    }
+
+    /// <summary>
+    /// TODO:
+    /// </summary>
+    public bool DisableAfterValid
+    {
+        get { return (bool)GetValue(DisableAfterValidProperty); }
+        set { SetValue(DisableAfterValidProperty, value); }
+    }
+
     /// <summary>
     /// Determines whether an icon should be shown when state is evaluated to Valid.
     /// </summary>
@@ -566,7 +605,6 @@ public class ValidationBox : TextBox, IValidationBox
                 break;
             case ValidationBoxState.Incomplete:
                 ChangeToIncomplete();
-                PlayAnimation();
                 break;
             default:
                 break;
@@ -604,32 +642,5 @@ public class ValidationBox : TextBox, IValidationBox
         BorderThickness = IncompleteThickness;
         Background = IncompleteBackgroundColor;
         Foreground = IncompleteTextColor;
-    }
-
-    private void PlayAnimation()
-    {
-        switch (AnimationType)
-        {
-            case AnimationType.VerticalShake:
-                if (_verticalShakeStoryboard != null)
-                {
-                    _verticalShakeStoryboard.RepeatBehavior = new RepeatBehavior(AnimationRepeat);
-                    BeginStoryboard(_verticalShakeStoryboard);
-
-                }
-                break;
-            case AnimationType.HorizontalShake:
-                if (_horizontalShakeStoryboard != null)
-                {
-                    _horizontalShakeStoryboard.RepeatBehavior = new RepeatBehavior(AnimationRepeat);
-                    BeginStoryboard(_horizontalShakeStoryboard);
-
-                }
-                break;
-            case AnimationType.None:
-                break;
-            default:
-                break;
-        }
-    }
+    
 }

@@ -642,5 +642,5 @@ public class ValidationBox : TextBox, IValidationBox
         BorderThickness = IncompleteThickness;
         Background = IncompleteBackgroundColor;
         Foreground = IncompleteTextColor;
-    
+    }
 }

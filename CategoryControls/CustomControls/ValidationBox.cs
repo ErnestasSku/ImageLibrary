@@ -552,6 +552,7 @@ public class ValidationBox : TextBox, IValidationBox
                 RaiseEvent(new RoutedPropertyChangedEventArgs<ValidationBoxState>(_state, value, ValidationStateChangedEvent));
                 _state = value;
                 ChangeAppearance();
+                StartAnimation();
             }
         }
     }
@@ -633,6 +634,33 @@ public class ValidationBox : TextBox, IValidationBox
                 break;
         }
     }
+
+    /// <summary>
+    /// Starts an animation based on the selected animation type.
+    /// </summary>
+    private void StartAnimation()
+    {
+        if (State != ValidationBoxState.Invalid)
+        {
+            return;
+        }
+
+        Storyboard? storyboard = GetAnimation(AnimationType);
+        storyboard?.Begin(this);
+    }
+
+    /// <summary>
+    /// Gets an animation storyboard.
+    /// </summary>
+    /// <param name="AnimationType"></param>
+    /// <returns></returns>
+    private Storyboard? GetAnimation(AnimationType AnimationType) => AnimationType switch
+    {
+        AnimationType.VerticalShake => _verticalShakeStoryboard,
+        AnimationType.HorizontalShake => _horizontalShakeStoryboard,
+        AnimationType.None => null,
+        _ => null
+    };
 
     /// <summary>
     /// Valid state handler.

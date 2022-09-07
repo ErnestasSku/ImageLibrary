@@ -3,6 +3,7 @@ using CategoryControls.Interfaces;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
@@ -247,7 +248,7 @@ public class ValidationBox : TextBox, IValidationBox
             new PropertyMetadata(false));
 
     /// <summary>
-    /// TODO: 
+    /// After hitting invalid state, stops accepting new input.
     /// </summary>
     public static DependencyProperty StopInputAfterInvalidProperty =
         DependencyProperty.Register(
@@ -257,7 +258,7 @@ public class ValidationBox : TextBox, IValidationBox
             new PropertyMetadata(false));
 
     /// <summary>
-    /// TODO:
+    /// Disables the entire control after hitting valid state.
     /// </summary>
     public static DependencyProperty DisableAfterValidProperty =
         DependencyProperty.Register(
@@ -265,6 +266,16 @@ public class ValidationBox : TextBox, IValidationBox
             typeof(bool),
             typeof(ValidationBox),
             new PropertyMetadata(false));
+
+    /// <summary>
+    /// Registers the popup error message.
+    /// </summary>
+    public static DependencyProperty InvalidPopupMessageProperty =
+        DependencyProperty.Register(
+            nameof(InvalidPopupMessage),
+            typeof(string),
+            typeof(ValidationBox),
+            new PropertyMetadata(string.Empty));
 
     #endregion
 
@@ -481,7 +492,7 @@ public class ValidationBox : TextBox, IValidationBox
 
 
     /// <summary>
-    /// TODO:
+    /// Stops accepting input after hitting invalid state.
     /// </summary>
     public bool StopInputAfterInvalid
     {
@@ -490,7 +501,7 @@ public class ValidationBox : TextBox, IValidationBox
     }
 
     /// <summary>
-    /// TODO:
+    /// Disables the control after hitting valid state.
     /// </summary>
     public bool DisableAfterValid
     {
@@ -498,15 +509,26 @@ public class ValidationBox : TextBox, IValidationBox
         set { SetValue(DisableAfterValidProperty, value); }
     }
 
+
+    /// <summary>
+    /// The message shown after the state is evaluated to invalid.
+    /// </summary>
+    public string InvalidPopupMessage
+    {
+        get { return (string)GetValue(InvalidPopupMessageProperty); }
+        set { SetValue(InvalidPopupMessageProperty, value); }
+    }
+
+    //TODO: add images
     /// <summary>
     /// Determines whether an icon should be shown when state is evaluated to Valid.
     /// </summary>
-    public bool ShowValidIcon;
+    //public bool ShowValidIcon;
 
     /// <summary>
     /// Determines whether an icon should be shown when state is evaluated to Invalid. 
     /// </summary>
-    public bool ShowInvalidIcon;
+    //public bool ShowInvalidIcon;
 
     //TODO: add these properties later.
     //public Image ValidIcon;
@@ -557,6 +579,8 @@ public class ValidationBox : TextBox, IValidationBox
         }
     }
 
+    private Popup invalidMessagePopup;
+
     private Storyboard _horizontalShakeStoryboard;
     private Storyboard _verticalShakeStoryboard;
 
@@ -578,7 +602,30 @@ public class ValidationBox : TextBox, IValidationBox
         _horizontalShakeStoryboard = (Storyboard)FindResource("HorizontalShake");
         _verticalShakeStoryboard = (Storyboard)FindResource("VerticalShake");
         RenderTransform = new TranslateTransform() { Y = 0, X = 0 };
+        invalidMessagePopup = new Popup()
+        {
+            Child = createSimpleTextPopup(),
+            Placement = PlacementMode.Bottom,
+            PlacementTarget = this
+        };
         base.OnApplyTemplate();
+    }
+
+    private Border createSimpleTextPopup()
+    {
+        Border border = new Border()
+        {
+            Background = new SolidColorBrush(Colors.White),
+            BorderThickness = new Thickness(1),
+            BorderBrush = new SolidColorBrush(Colors.Black)
+        };
+        border.Child = new TextBlock() 
+        { 
+            Text = InvalidPopupMessage,
+            
+        };
+
+        return border;
     }
 
     protected override void OnTextChanged(TextChangedEventArgs e)
@@ -633,6 +680,11 @@ public class ValidationBox : TextBox, IValidationBox
             default:
                 break;
         }
+        
+        if (invalidMessagePopup != null && invalidMessagePopup.IsOpen && State != ValidationBoxState.Invalid)
+        {
+            invalidMessagePopup.IsOpen = false;
+        }
     }
 
     /// <summary>
@@ -680,6 +732,8 @@ public class ValidationBox : TextBox, IValidationBox
     private void HandleInvalid()
     {
         ChangeControlProperties(invalidActionProperties());
+        if (!InvalidPopupMessage.Equals(string.Empty))
+            invalidMessagePopup.IsOpen = true;
     }
 
     /// <summary>

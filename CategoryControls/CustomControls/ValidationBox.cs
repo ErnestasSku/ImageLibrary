@@ -576,6 +576,7 @@ public class ValidationBox : TextBox, IValidationBox
 
         _horizontalShakeStoryboard = (Storyboard)FindResource("HorizontalShake");
         _verticalShakeStoryboard = (Storyboard)FindResource("VerticalShake");
+        RenderTransform = new TranslateTransform() { Y = 0, X = 0 };
         base.OnApplyTemplate();
     }
 

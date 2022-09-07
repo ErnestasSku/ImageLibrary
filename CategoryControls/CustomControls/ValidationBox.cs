@@ -10,7 +10,7 @@ using System.Windows.Media.Animation;
 namespace CategoryControls.CustomControls;
 
 //[TemplatePart(Name = "PART_TextBox", Type = typeof(TextBox))]
-public class ValidationBox : TextBox, IValidationBox
+public class ValidationBox : TextBox
 {
 
     #region Dependency Properties

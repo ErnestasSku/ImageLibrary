@@ -129,22 +129,16 @@
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True" SourceName="PlaceholderTextLabel">
-                            <!--<Setter Property="Background" TargetName="_mainBorder" Value="White"/>-->
                             <Setter Property="Cursor" Value="IBeam" />
                             <Setter Property="BorderBrush" TargetName="_mainBorder" Value="{Binding BorderHoverColor, RelativeSource={RelativeSource AncestorType=cc:ValidationBox}}"/>
                         </Trigger>
 
                         <Trigger Property="IsMouseOver" Value="False">
-                            <!--<Setter Property="Background" TargetName="_mainBorder" Value="Transparent" />-->
                         </Trigger>
 
                         <Trigger Property="HasText" Value="True">
                             <Setter Property="Visibility" TargetName="PlaceholderTextLabel" Value="Hidden"/>
                         </Trigger>
-
-                        <!--<Trigger Property="IsFocused" Value="True">
-                            <Setter Property="BorderBrush" TargetName="_mainBorder" Value="{TemplateBinding BorderBrush}"/>
-                        </Trigger>-->
 
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

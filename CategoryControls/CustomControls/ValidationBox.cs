@@ -85,6 +85,17 @@ public class ValidationBox : TextBox
             new PropertyMetadata(new Thickness(1)));
 
     /// <summary>
+    /// Registers the property which dictates the border color when the mouse is 
+    /// hovered over the control.
+    /// </summary>
+    public static DependencyProperty BorderHoverColorProperty =
+        DependencyProperty.Register(
+            nameof(BorderHoverColor),
+            typeof(Brush),
+            typeof(ValidationBox),
+            new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+
+    /// <summary>
     /// Border Thickness property registration for when the text is evaulated to Valid.
     /// </summary>
     public static DependencyProperty ValidBorderColorProperty =
@@ -248,6 +259,43 @@ public class ValidationBox : TextBox
             new PropertyMetadata(false));
 
     /// <summary>
+    /// Registers the placeholder text.
+    /// </summary>
+    public static DependencyProperty PlaceholderTextProperty =
+        DependencyProperty.Register(
+            nameof(PlaceholderText),
+            typeof(string),
+            typeof(ValidationBox),
+            new PropertyMetadata(string.Empty));
+
+    /// <summary>
+    /// Registers the placeholder text property.
+    /// </summary>
+    public static DependencyProperty PlaceholderTextColorProperty =
+        DependencyProperty.Register(
+            nameof(PlaceholderTextColor),
+            typeof(Brush),
+            typeof(ValidationBox),
+            new PropertyMetadata(new SolidColorBrush(Colors.Gray)));
+
+    private static DependencyPropertyKey HasTextPropertyKey =
+        DependencyProperty.RegisterAttachedReadOnly(
+            nameof(HasText),
+            typeof(bool),
+            typeof(ValidationBox),
+            new PropertyMetadata(false));
+
+    public static DependencyProperty HasTextProperty =
+        HasTextPropertyKey.DependencyProperty;
+
+    public static DependencyProperty HidePlaceholderOnFocusProperty =
+        DependencyProperty.Register(
+            nameof(HidePlaceholderOnFocus),
+            typeof(bool),
+            typeof(ValidationBox),
+            new PropertyMetadata(true));
+
+    /// <summary>
     /// After hitting invalid state, stops accepting new input.
     /// </summary>
     public static DependencyProperty StopInputAfterInvalidProperty =
@@ -345,6 +393,16 @@ public class ValidationBox : TextBox
         get { return (Thickness)GetValue(IncompleteThicknessProperty); }
         set { SetValue(IncompleteThicknessProperty, value); }
     }
+
+    /// <summary>
+    /// Border color when control is hovered over.
+    /// </summary>
+    public Brush BorderHoverColor
+    {
+        get { return (Brush)GetValue(BorderHoverColorProperty); }
+        set { SetValue(BorderHoverColorProperty, value); }
+    }
+
 
     /// <summary>
     /// Color of box when state is evaluated to Valid.
@@ -490,6 +548,42 @@ public class ValidationBox : TextBox
         set { SetValue(IncompleteHighlightWithoutFocusProperty, value); }
     }
 
+    /// <summary>
+    /// Placeholder text for the input.
+    /// </summary>
+    public string PlaceholderText
+    {
+        get { return (string)GetValue(PlaceholderTextProperty); }
+        set { SetValue(PlaceholderTextProperty, value); }
+    }
+
+    /// <summary>
+    /// Placeholder text color.
+    /// </summary>
+    public Brush PlaceholderTextColor
+    {
+        get { return (Brush)GetValue(PlaceholderTextColorProperty); }
+        set { SetValue(PlaceholderTextColorProperty, value); }
+    }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool HasText
+    {
+        get { return (bool)GetValue(HasTextProperty); }
+        set { SetValue(HasTextPropertyKey, value); }
+    }
+
+    /// <summary>
+    /// Determines whether placeholder text should be hidden 
+    /// when input box is activated.
+    /// </summary>
+    public bool HidePlaceholderOnFocus
+    {
+        get { return (bool)GetValue(HidePlaceholderOnFocusProperty); }
+        set { SetValue(HidePlaceholderOnFocusProperty, value); }
+    }
 
     /// <summary>
     /// Stops accepting input after hitting invalid state.
@@ -584,6 +678,8 @@ public class ValidationBox : TextBox
     private Storyboard _horizontalShakeStoryboard;
     private Storyboard _verticalShakeStoryboard;
 
+    private string _displayPlaceholderText { get; set; } = string.Empty;
+
     static ValidationBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(
@@ -608,6 +704,7 @@ public class ValidationBox : TextBox
             Placement = PlacementMode.Bottom,
             PlacementTarget = this
         };
+        _displayPlaceholderText = PlaceholderText;
         base.OnApplyTemplate();
     }
 
@@ -636,6 +733,7 @@ public class ValidationBox : TextBox
         {
             Text = Text.Substring(0, Text.Length - 1);
         }
+        HasText = Text.Length != 0;
     }
 
     protected override void OnLostFocus(RoutedEventArgs e)
@@ -649,12 +747,20 @@ public class ValidationBox : TextBox
             app = invalidActionProperties();
 
         ChangeControlProperties(app);
+        if (!HasText)
+        {
+            PlaceholderText = _displayPlaceholderText;
+        }
     }
 
     protected override void OnGotFocus(RoutedEventArgs e)
     {
         base.OnGotFocus(e);
         ChangeAppearance();
+        if (!HasText && HidePlaceholderOnFocus)
+        {
+            PlaceholderText = string.Empty;
+        }
     }
 
 
